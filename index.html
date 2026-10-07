@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;700&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261007f">
+<link rel="stylesheet" href="styles.css?v=20261007g">
 <script type="importmap">
 {
   "imports": {
@@ -112,11 +112,16 @@
   <button type="button" class="lightbox-close" id="office-close" data-i18n-aria="close" aria-label="Close">✕</button>
   <img src="assets/oficina-agentes-oscuro.webp" alt="" width="2160" height="1340" id="office-big">
 </dialog>
+<dialog class="lightbox lightbox-video" id="demo-dlg" aria-label="Demo">
+  <button type="button" class="lightbox-close" id="demo-close" data-i18n-aria="close" aria-label="Close">✕</button>
+  <video id="demo-video" controls playsinline muted preload="none"></video>
+  <p class="demo-error" id="demo-error" role="alert" hidden></p>
+</dialog>
 
 <button class="to-top" id="to-top" type="button" data-i18n-aria="toTop" aria-label="Volver al teclado"><span aria-hidden="true">↑</span><span data-i18n="toTop">Volver al teclado</span></button>
 
 <footer class="foot"><p data-i18n="footer"></p></footer>
 
-<script type="module" src="app.js?v=20261007f"></script>
+<script type="module" src="app.js?v=20261007g"></script>
 </body>
 </html>

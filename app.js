@@ -1,5 +1,5 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007f';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007g';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -47,7 +47,13 @@ function cardHTML(p) {
   const link = p.url
     ? `<a class="go" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.play ? ui.play : ui.open)} ↗</a>`
     : (p.group === 'proyectos' ? `<span class="private">${esc(ui.private)}</span>` : '');
-  return `<article class="card reveal" style="--a:${p.accent}">
+  const v = p.video;
+  const demo = v ? `<button type="button" class="demo-thumb" data-video="${esc(v.src)}" data-poster="${esc(v.poster)}" data-w="${v.w}" data-h="${v.h}" data-title="${esc((t.name || p.name) + ' · ' + v[state.lang])}">
+      <img src="${esc(v.poster)}" alt="" loading="lazy" width="${v.w}" height="${v.h}">
+      <span class="demo-play" aria-hidden="true"></span>
+      <span class="demo-meta"><b>${esc(ui.demo)} · ${esc(t.name || p.name)} · ${esc(v.len)}</b><span>${esc(v[state.lang])}</span><i>${esc(ui.demoData)}</i></span>
+    </button>` : '';
+  return `<article class="card reveal${v ? ' has-demo' : ''}" style="--a:${p.accent}">${demo}
     <div class="card-top"><div class="card-icon${p.logo ? ' has-logo' : ''}" aria-hidden="true">${p.logo ? `<img src="${esc(p.logo)}" alt="" width="46" height="46" loading="lazy">` : esc(p.mono)}</div>
       <span class="badge ${p.status}">${esc(ui.status[p.status])}</span></div>
     <div class="card-name"><h3>${esc(t.name || p.name)}</h3><div class="tag">${esc(t.tag)}</div></div>
@@ -245,7 +251,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007f');
+    const mod = await import('./keypad3d.js?v=20261007g');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
@@ -289,6 +295,26 @@ $('#office-open').addEventListener('click', () => { if (dlg.showModal) dlg.showM
 if (dlg.showModal) {
   $('#office-close').addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // clic fuera de la imagen
+}
+
+// ---------- videos demo: el archivo se descarga solo al tocar play ----------
+const demoDlg = $('#demo-dlg'); const demoVid = $('#demo-video');
+function cerrarDemo() { $('#demo-error').hidden = true; demoVid.pause(); demoVid.removeAttribute('src'); demoVid.load(); }
+// Solo cuenta el error si hay un video puesto (al cerrar, quitar el src también dispara 'error').
+demoVid.addEventListener('error', () => { if (demoVid.getAttribute('src')) { $('#demo-error').textContent = UI[state.lang].demoError; $('#demo-error').hidden = false; } });
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('.demo-thumb'); if (!t) return;
+  if (!demoDlg.showModal) { window.open(t.dataset.video, '_blank', 'noopener'); return; }
+  demoVid.poster = t.dataset.poster; demoVid.width = Number(t.dataset.w); demoVid.height = Number(t.dataset.h);
+  demoVid.src = t.dataset.video; demoDlg.setAttribute('aria-label', t.dataset.title);
+  demoDlg.showModal(); demoVid.play().catch(() => {});
+});
+if (demoDlg.showModal) {
+  $('#demo-close').addEventListener('click', () => demoDlg.close());
+  let toqueFuera = false;
+  demoDlg.addEventListener('pointerdown', (e) => { toqueFuera = e.target === demoDlg; });
+  demoDlg.addEventListener('click', (e) => { if (e.target === demoDlg && toqueFuera) demoDlg.close(); });
+  demoDlg.addEventListener('close', cerrarDemo);
 }
 
 // ---------- botón "volver al teclado" ----------
