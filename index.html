@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Roberto Linares · Portafolio</title>
+<meta name="description" content="Roberto Linares: construyo herramientas reales con IA. Apps que usan un rancho, una fábrica y mi familia todos los días.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Roberto Linares · Portafolio">
+<meta property="og:description" content="Construyo herramientas reales con IA.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b0d10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23ef5a3c%22/%3E%3Ctext x=%2232%22 y=%2244%22 font-size=%2236%22 font-family=%22Arial%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%231a1a1a%22%3EP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;700&family=VT323&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#proyectos" data-i18n="skip">Saltar al contenido</a>
+
+<header class="top">
+  <a class="brand" href="#inicio">R<span>·</span>L</a>
+  <div class="top-actions">
+    <button class="pill" id="btn-sound" type="button" aria-pressed="false" data-i18n="sound">Sonido</button>
+    <button class="pill pill-lang" id="btn-lang" type="button" data-i18n="langBtn" data-i18n-aria="langLabel">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="hero-copy">
+      <p class="kicker" data-i18n="heroKicker">Portafolio · 2026</p>
+      <h1 data-i18n-html="heroTitle">Hola, soy <b>Roberto</b>.<br>Construyo herramientas <em>reales</em> con IA.</h1>
+      <p class="hero-sub" data-i18n="heroSub">Apps que usan un rancho, una fábrica y mi familia todos los días.</p>
+    </div>
+
+    <div class="device-wrap" id="device" tabindex="0" role="group" data-i18n-aria="deviceLabel" aria-label="Teclado interactivo: cada tecla abre una sección">
+      <div class="device-3d" id="device-3d" aria-hidden="true"></div>
+      <!-- Respaldo: el mismo aparato en HTML. Se ve si no hay 3D. -->
+      <div class="device-html" id="device-html">
+        <div class="lcd" aria-hidden="true"><span id="lcd-html">&gt; HOLA, SOY ROBERTO_</span></div>
+        <div class="grille" aria-hidden="true"></div>
+        <div class="keys" id="keys-html"></div>
+      </div>
+      <p class="sr-only" id="lcd-text" aria-live="polite"></p>
+    </div>
+
+    <nav class="legend vh" id="legend" data-i18n-aria="navLabel" aria-label="Secciones del portafolio"></nav>
+    <p class="hint sr-only" data-i18n="heroHint">Toca una tecla</p>
+  </section>
+  <noscript>
+    <section class="sec">
+      <p>Este portafolio necesita JavaScript. / This portfolio needs JavaScript.</p>
+      <p><a href="mailto:rl7103405@gmail.com">rl7103405@gmail.com</a> · <a href="assets/CV-Roberto-Linares-EN.pdf">CV (PDF)</a></p>
+    </section>
+  </noscript>
+
+  <section class="sec" id="proyectos" data-key="P"><div class="sec-head"></div><div class="cards cards-big" data-group="proyectos"></div></section>
+  <section class="sec" id="origen" data-key="O">
+    <div class="sec-head"></div>
+    <div class="origin">
+      <img class="headshot" src="assets/foto.jpg" alt="Roberto Linares" width="270" height="340" loading="lazy">
+      <div class="prose" data-body="origen"></div>
+    </div>
+  </section>
+  <section class="sec" id="cv" data-key="R"><div class="sec-head"></div><a class="btn" id="cv-link" href="assets/CV-Roberto-Linares-EN.pdf" download data-i18n="cvBtn">Descargar CV</a></section>
+  <section class="sec" id="herramientas" data-key="T"><div class="sec-head"></div><div class="prose" data-body="herramientas"></div><ul class="chips" id="chips"></ul></section>
+  <section class="sec" id="fabrica" data-key="F"><div class="sec-head"></div><div class="cards" data-group="fabrica"></div></section>
+  <section class="sec" id="fuera" data-key="O"><div class="sec-head"></div><div class="prose" data-body="fuera"></div></section>
+  <section class="sec" id="laboratorio" data-key="L"><div class="sec-head"></div><div class="cards" data-group="laboratorio"></div></section>
+  <section class="sec" id="en-proceso" data-key="I"><div class="sec-head"></div><div class="cards" data-group="en-proceso"></div></section>
+  <section class="sec" id="codigo" data-key="O"><div class="sec-head"></div><div class="links" id="code-links"></div></section>
+  <section class="sec sec-contact" id="contacto" data-key="↵">
+    <div class="sec-head"></div>
+    <h3 class="contact-big" data-i18n="contactTitle">¿Hablamos?</h3>
+    <p data-i18n="contactSub"></p>
+    <div class="links" id="contact-links"></div>
+  </section>
+</main>
+
+<button class="to-top" id="to-top" type="button" data-i18n-aria="toTop" aria-label="Volver al teclado"><span aria-hidden="true">↑</span><span data-i18n="toTop">Volver al teclado</span></button>
+
+<footer class="foot"><p data-i18n="footer"></p></footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
