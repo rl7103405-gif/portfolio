@@ -49,8 +49,8 @@ function cardHTML(p) {
     : (p.group === 'proyectos' ? `<span class="private">${esc(ui.private)}</span>` : '');
   return `<article class="card reveal" style="--a:${p.accent}">
     <div class="card-top"><div class="card-icon${p.logo ? ' has-logo' : ''}" aria-hidden="true">${p.logo ? `<img src="${esc(p.logo)}" alt="" width="46" height="46" loading="lazy">` : esc(p.mono)}</div>
-      <div><h3>${esc(t.name || p.name)}</h3><div class="tag">${esc(t.tag)}</div></div>
       <span class="badge ${p.status}">${esc(ui.status[p.status])}</span></div>
+    <div class="card-name"><h3>${esc(t.name || p.name)}</h3><div class="tag">${esc(t.tag)}</div></div>
     <p>${esc(t.desc)}</p>${extra}${stack}${link}</article>`;
 }
 

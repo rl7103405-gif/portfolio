@@ -47,10 +47,10 @@ a { color: inherit; }
 }
 .brand { font: 700 20px "Bricolage Grotesque", sans-serif; text-decoration: none; letter-spacing: 1px; }
 .brand span { color: var(--accent); }
-.top-actions { display: flex; gap: 8px; }
+.top-actions { display: flex; align-items: center; gap: 8px; }
 .pill {
   font: 600 13px "Geist Mono", monospace; color: var(--ink); background: var(--bg-2); border: 1px solid var(--line);
-  border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: border-color .2s, transform .2s;
+  border-radius: 999px; padding: 0 14px; height: 36px; display: inline-flex; align-items: center; justify-content: center; line-height: 1; cursor: pointer; transition: border-color .2s, transform .2s;
 }
 .pill:hover { border-color: #3a404b; transform: translateY(-1px); }
 .pill.on { border-color: var(--lcd); color: var(--lcd); }
@@ -67,7 +67,7 @@ h1 b { color: var(--accent); font-weight: 700; }
 h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-sub { color: var(--ink-2); max-width: 560px; margin: 8px auto 0; font-size: clamp(15px, 1.6vw, 18px); }
 
-.device-wrap { position: relative; width: min(920px, 100%, max(320px, calc((100svh - 360px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
+.device-wrap { position: relative; width: min(760px, 100%, max(320px, calc((100svh - 470px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
 .device-wrap:focus-visible { outline-offset: 6px; }
 .device-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; touch-action: pan-y; }
 .has-3d .device-3d { opacity: 1; }
@@ -141,11 +141,13 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 }
 .card:hover { border-color: #343a44; }
 .card:hover::after { opacity: 1; }
-.card-top { display: flex; align-items: center; gap: 12px; }
+.card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; }
+.card-icon { flex: none; }
+.card-name { display: grid; gap: 2px; }
 .card-icon { width: 46px; height: 46px; border-radius: 10px; display: grid; place-items: center; font: 700 15px "Geist Mono", monospace; letter-spacing: .5px; color: var(--a); border: 1px solid color-mix(in srgb, var(--a) 45%, transparent); background: color-mix(in srgb, var(--a) 18%, var(--bg)); }
 .card h3 { font: 700 21px "Bricolage Grotesque", sans-serif; margin: 0; }
 .card .tag { color: var(--ink-2); font-size: 13px; }
-.badge { margin-left: auto; font: 600 11px "Geist Mono", monospace; letter-spacing: .5px; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
+.badge { font: 600 11px "Geist Mono", monospace; letter-spacing: .5px; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
 .badge.prod, .badge.done { color: #9cff7a; border-color: #2c4a23; }
 .badge.wip { color: #f3d23a; border-color: #4a4119; }
 .card p { margin: 0; }
