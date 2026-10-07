@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blackjack Palace — Entrenador de conteo</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header id="barra-superior">
+  <div class="grupo-hud" id="hud-grupo-nivel" title="Ver progreso">
+    <span class="hud-etiqueta">Nivel</span>
+    <div id="hud-niveles"></div>
+    <span id="hud-nivel-nombre" class="hud-sub">Aprendiz</span>
+  </div>
+  <div class="grupo-hud">
+    <span class="hud-etiqueta">Banca</span>
+    <span id="hud-banca" class="hud-valor">$1,000</span>
+  </div>
+  <div class="grupo-hud" id="hud-cuenta">
+    <span class="hud-etiqueta">Cuenta</span>
+    <span id="hud-rc" class="hud-valor">0</span>
+    <span class="hud-sub">TC <span id="hud-tc2">0</span> · <span id="hud-barajas">6.0</span> barajas</span>
+    <button id="btn-ojo" type="button" title="Mostrar u ocultar la cuenta">👁</button>
+  </div>
+  <div class="grupo-botones">
+    <button id="btn-progreso" class="btn-hud" type="button">Progreso</button>
+    <button id="btn-tablas" class="btn-hud" type="button">Tablas</button>
+    <button id="btn-config" class="btn-hud" type="button">Reglas</button>
+  </div>
+</header>
+
+<main id="mesa">
+  <section id="zona-dealer">
+    <div class="etiqueta-asiento">Dealer</div>
+    <div id="cartas-dealer" class="cartas"></div>
+    <div id="total-dealer" class="total-mano"></div>
+    <div id="letrero-mesa"></div>
+  </section>
+
+  <div id="bandeja-descarte" title="Pila de descarte — úsala para estimar cuántas barajas quedan">
+    <div id="pila-descarte"><div id="descarte-relleno"></div></div>
+    <div id="etiqueta-descarte">descarte</div>
+  </div>
+
+  <div id="centro-mesa">
+    <div id="mensaje-mesa"></div>
+  </div>
+
+  <section id="zona-asientos">
+    <div class="asiento" id="asiento-bot1">
+      <div class="etiqueta-asiento">Jugador 1</div>
+      <div id="cartas-bot1" class="cartas cartas-chicas"></div>
+      <div id="total-bot1" class="total-mano"></div>
+    </div>
+
+    <div class="asiento asiento-principal" id="asiento-jugador">
+      <div class="etiqueta-asiento">Tú</div>
+      <div id="manos-jugador"></div>
+      <div id="sugerencia-coach" hidden></div>
+    </div>
+
+    <div class="asiento" id="asiento-bot2">
+      <div class="etiqueta-asiento">Jugador 2</div>
+      <div id="cartas-bot2" class="cartas cartas-chicas"></div>
+      <div id="total-bot2" class="total-mano"></div>
+    </div>
+  </section>
+</main>
+
+<footer id="panel-acciones">
+  <div id="panel-apuesta">
+    <div id="fichas">
+      <button class="ficha" data-valor="50" type="button">$50</button>
+      <button class="ficha" data-valor="100" type="button">$100</button>
+      <button class="ficha" data-valor="200" type="button">$200</button>
+      <button class="ficha" data-valor="500" type="button">$500</button>
+      <button class="ficha" data-valor="1000" type="button">$1,000</button>
+    </div>
+    <div id="apuesta-actual">Apuesta: <strong id="monto-apuesta">$0</strong></div>
+    <button id="btn-limpiar-apuesta" class="btn-secundario" type="button">Limpiar</button>
+    <button id="btn-coach-apuesta" class="btn-secundario" type="button">Coach</button>
+    <button id="btn-repartir" class="btn-principal" type="button" disabled>Repartir</button>
+  </div>
+
+  <div id="panel-jugada" hidden>
+    <button id="btn-pedir" class="btn-accion" type="button">Pedir</button>
+    <button id="btn-plantarse" class="btn-accion" type="button">Plantarse</button>
+    <button id="btn-doblar" class="btn-accion" type="button">Doblar</button>
+    <button id="btn-dividir" class="btn-accion" type="button">Dividir</button>
+    <button id="btn-rendirse" class="btn-accion" type="button">Rendirse</button>
+    <button id="btn-coach" class="btn-secundario" type="button">Coach</button>
+  </div>
+
+  <div id="panel-seguro" hidden>
+    <span id="texto-seguro">El dealer muestra un As. ¿Seguro?</span>
+    <button id="btn-seguro-si" class="btn-accion" type="button">Tomar seguro</button>
+    <button id="btn-seguro-no" class="btn-principal" type="button">No, gracias</button>
+  </div>
+
+  <div id="panel-siguiente" hidden>
+    <button id="btn-siguiente" class="btn-principal" type="button">Siguiente mano</button>
+  </div>
+</footer>
+
+<div id="toast" hidden></div>
+
+<!-- Quiz de conteo -->
+<div id="modal-quiz" class="modal" hidden>
+  <div class="modal-caja">
+    <h2 id="quiz-titulo">¿Cómo va tu cuenta?</h2>
+    <div id="quiz-paso-rc" class="quiz-paso">
+      <p>Running count:</p>
+      <div class="quiz-opciones" id="quiz-opciones-rc"></div>
+    </div>
+    <div id="quiz-paso-barajas" class="quiz-paso" hidden>
+      <p>¿Cuántas barajas crees que quedan en el zapato? (mira la pila de descarte)</p>
+      <div class="quiz-opciones" id="quiz-opciones-barajas"></div>
+    </div>
+    <div id="quiz-paso-tc" class="quiz-paso" hidden>
+      <p>Con tu estimación de barajas, ¿cuál es el true count? (running ÷ barajas, truncado)</p>
+      <div class="quiz-opciones" id="quiz-opciones-tc"></div>
+    </div>
+    <div id="quiz-resultado" hidden></div>
+    <button id="btn-quiz-cerrar" class="btn-principal" type="button" hidden>Continuar</button>
+  </div>
+</div>
+
+<!-- Reglas / configuración -->
+<div id="modal-config" class="modal" hidden>
+  <div class="modal-caja">
+    <h2>Reglas de la mesa</h2>
+    <p class="nota-alerta">Preset «Palace Angelópolis» — <strong>reglas SIN confirmar en sitio</strong>.
+    Verifícalas en tu próxima visita (checklist en el botón de abajo) y ajústalas aquí.</p>
+    <div class="config-fila"><label for="cfg-barajas">Barajas</label>
+      <select id="cfg-barajas"><option value="4">4</option><option value="6" selected>6</option><option value="8">8</option></select></div>
+    <div class="config-fila"><label for="cfg-bots">Jugadores contigo en la mesa</label>
+      <select id="cfg-bots"><option value="0">Ninguno (solo tú)</option><option value="1">1</option><option value="2" selected>2</option></select></div>
+    <div class="config-fila"><label for="cfg-unidad">Unidad de apuesta (rampa) — lo sano es ~1% de tu banca</label>
+      <select id="cfg-unidad"><option value="50" selected>$50</option><option value="100">$100</option><option value="200">$200</option></select></div>
+    <div class="config-fila"><label for="cfg-h17">Dealer con 17 suave</label>
+      <select id="cfg-h17"><option value="H17" selected>Pide carta (H17)</option><option value="S17">Se planta (S17)</option></select></div>
+    <div class="config-fila"><label for="cfg-das">Doblar después de dividir</label>
+      <select id="cfg-das"><option value="si" selected>Sí</option><option value="no">No</option></select></div>
+    <div class="config-fila"><label for="cfg-rendirse">Rendirse (late surrender)</label>
+      <select id="cfg-rendirse"><option value="no" selected>No</option><option value="si">Sí</option></select></div>
+    <div class="config-fila"><label for="cfg-pago">Pago de blackjack</label>
+      <select id="cfg-pago"><option value="1.5" selected>3 a 2</option><option value="1.2">6 a 5</option></select></div>
+    <div class="config-fila"><label for="cfg-penetracion">Penetración (carta de corte)</label>
+      <select id="cfg-penetracion"><option value="0.65">65%</option><option value="0.75" selected>75%</option><option value="0.85">85%</option></select></div>
+    <p class="nota-chica"><strong>¿Qué es la carta de corte?</strong> Al barajar, el dealer mete una
+    tarjeta de plástico dentro del zapato. Cuando esa tarjeta sale, se termina la mano y se vuelve a
+    barajar todo (y tu cuenta regresa a cero). "Penetración 75%" significa que se juegan tres cuartas
+    partes del zapato antes de barajar. Mientras más profunda la corten, más vale la pena contar:
+    llegas a ver más cartas antes del rebarajeo. En el Palace, fíjate dónde la meten al barajar.</p>
+    <p class="nota-chica">Fijas en esta versión: peek americano, doblar con cualquier par de cartas,
+    máximo 4 manos al dividir, ases divididos reciben una sola carta y no se re-dividen.
+    Cambiar reglas baraja el zapato.</p>
+    <div class="modal-botones">
+      <button id="btn-checklist" class="btn-secundario" type="button">Checklist para el casino</button>
+      <button id="btn-config-guardar" class="btn-principal" type="button">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Checklist del casino -->
+<div id="modal-checklist" class="modal" hidden>
+  <div class="modal-caja">
+    <h2>Qué verificar en el Palace</h2>
+    <ol class="lista-checklist">
+      <li><strong>¿Zapato o barajadora continua?</strong> Si el dealer mete las cartas usadas a una máquina
+      después de CADA mano y reparte de ahí mismo, es barajadora continua (CSM): <strong>contar no sirve de nada
+      en esa mesa</strong>. Busca una mesa con zapato y carta de corte.</li>
+      <li><strong>¿Cuántas barajas?</strong> Cuenta los mazos cuando barajan (6 u 8 normalmente).</li>
+      <li><strong>¿Dónde ponen la carta de corte?</strong> Mientras más al fondo, mejor para contar.
+      Si cortan a la mitad del zapato, la ventaja casi desaparece.</li>
+      <li><strong>¿El blackjack paga 3 a 2 o 6 a 5?</strong> Está impreso en el fieltro. Con 6 a 5 la casa
+      se come tu ventaja: evita esas mesas.</li>
+      <li><strong>¿El dealer pide carta con 17 suave?</strong> (As + 6). Obsérvalo unas manos.</li>
+      <li><strong>¿Se puede doblar después de dividir? ¿Rendirse?</strong> Pregunta al dealer, es normal preguntarlo.</li>
+      <li><strong>Mínimo y máximo de la mesa.</strong> Tu spread de 1 a 8 unidades debe caber sin llamar la atención.</li>
+    </ol>
+    <button class="btn-principal btn-cerrar-modal" type="button">Cerrar</button>
+  </div>
+</div>
+
+<!-- Tablas de estrategia -->
+<div id="modal-tablas" class="modal" hidden>
+  <div class="modal-caja modal-ancha">
+    <h2>Estrategia básica y conteo</h2>
+    <div id="contenido-tablas"></div>
+    <button class="btn-principal btn-cerrar-modal" type="button">Cerrar</button>
+  </div>
+</div>
+
+<!-- Progreso -->
+<div id="modal-progreso" class="modal" hidden>
+  <div class="modal-caja">
+    <h2>Tu progreso</h2>
+    <div id="contenido-progreso"></div>
+    <div class="modal-botones">
+      <button id="btn-reiniciar-progreso" class="btn-secundario" type="button">Reiniciar todo</button>
+      <button class="btn-principal btn-cerrar-modal" type="button">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

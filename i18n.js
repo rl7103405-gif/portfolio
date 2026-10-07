@@ -16,6 +16,8 @@ export const UI = {
     toTop: 'Volver al teclado',
     deviceLabel: 'Teclado interactivo: cada tecla abre una sección',
     open: 'Ver en vivo',
+    play: 'Jugarlo',
+    repo: 'Código de este portafolio',
     private: 'Privada: tiene datos reales. Demo en video, pronto.',
     status: { prod: 'En producción', done: 'Entregado', wip: 'En progreso', lab: 'Experimento', internal: 'Interna' },
     used: 'Quién la usa',
@@ -39,6 +41,8 @@ export const UI = {
     toTop: 'Back to the keypad',
     deviceLabel: 'Interactive keypad: each key opens a section',
     open: 'See it live',
+    play: 'Play it',
+    repo: 'This portfolio\'s code',
     private: 'Private: it holds real data. Video demo coming soon.',
     status: { prod: 'In production', done: 'Delivered', wip: 'In progress', lab: 'Experiment', internal: 'Internal' },
     used: 'Who uses it',
@@ -74,7 +78,7 @@ export const SECTIONS = {
       title: 'Origen',
       lead: 'Tengo 18 años y soy de Puebla, México.',
       body: [
-        'Estudié el bachillerato alemán en el Colegio Humboldt (promedio 9.15) y un semestre de intercambio en Stuttgart. Hablo español, alemán e inglés.',
+        'Terminé la prepa en el Colegio Humboldt de Puebla, una escuela alemana (promedio 9.15), e hice un semestre de intercambio en el Eberhard-Ludwigs-Gymnasium de Stuttgart. Hablo español, alemán e inglés.',
         'Empecé a construir porque veía problemas cerca: un rancho que anotaba todo en papel, una fábrica que coordinaba por WhatsApp, mi familia sin saber a dónde se iba el dinero. Con IA aprendí a convertir eso en apps que la gente usa de verdad.',
         'Mi ruta: inglés en Sydney en 2027, un año de Ingeniería en Información Electrónica en China y, después, ingeniería en TU Delft, en Países Bajos.',
       ],
@@ -83,7 +87,7 @@ export const SECTIONS = {
       title: 'Origin',
       lead: 'I\'m 18 and from Puebla, Mexico.',
       body: [
-        'I studied a German-model high school at Colegio Humboldt (GPA 9.15/10) and spent an exchange semester in Stuttgart. I speak Spanish, German and English.',
+        'I finished high school at Colegio Humboldt in Puebla, a German school (GPA 9.15/10), and spent an exchange semester at Eberhard-Ludwigs-Gymnasium in Stuttgart. I speak Spanish, German and English.',
         'I started building because I saw problems up close: a ranch that recorded everything on paper, a factory coordinating over WhatsApp, my family not knowing where the money went. AI taught me to turn that into apps people actually use.',
         'My path: English in Sydney in 2027, a year of Electronic Information Engineering in China, and then engineering at TU Delft in the Netherlands.',
       ],
@@ -121,19 +125,19 @@ export const SECTIONS = {
     es: {
       title: 'Fuera de la pantalla',
       lead: 'Lo que hago cuando no estoy construyendo.',
-      body: [
-        'Básquet: capitán del equipo del Colegio Humboldt (2023 a 2026) y titular en la Academia Jaguares.',
-        'Jiu-jitsu brasileño: 4 campeonatos nacionales.',
-        'Rownies: mi marca de brownies desde 2023. La produzco, la costeo y la vendo, incluido un puesto en un festival de unas 3,600 personas.',
+      items: [
+        { label: 'Básquet', stat: 'Capitán', text: 'Capitán del equipo del Colegio Humboldt de 2023 a 2026 y titular en la Academia Jaguares, en San Pedro Cholula. En Sydney sigo jugando en liga.' },
+        { label: 'Jiu-jitsu brasileño', stat: '4×', text: 'Cuatro campeonatos nacionales. Lo que me enseñó: la técnica le gana a la fuerza, y se entrena aunque no tengas ganas.' },
+        { label: 'Rownies', stat: '2023', text: 'Mi marca de brownies desde 2023: produzco, costeo y vendo. Cada año tengo un puesto en un festival de unas 3,600 personas.' },
       ],
     },
     en: {
       title: 'Off-hours',
       lead: 'What I do when I\'m not building.',
-      body: [
-        'Basketball: team captain at Colegio Humboldt (2023 to 2026) and starting player at Academia Jaguares.',
-        'Brazilian Jiu-Jitsu: 4 national championships.',
-        'Rownies: my brownie brand since 2023. I make, cost and sell them, including a stall at a festival of about 3,600 people.',
+      items: [
+        { label: 'Basketball', stat: 'Captain', text: 'Team captain at Colegio Humboldt from 2023 to 2026 and starting player at Academia Jaguares in San Pedro Cholula. I keep playing league in Sydney.' },
+        { label: 'Brazilian Jiu-Jitsu', stat: '4×', text: 'Four national championships. What it taught me: technique beats strength, and you train even when you don\'t feel like it.' },
+        { label: 'Rownies', stat: '2023', text: 'My brownie brand since 2023: I make, cost and sell them. Every year I run a stall at a festival of about 3,600 people.' },
       ],
     },
   },
@@ -146,8 +150,8 @@ export const SECTIONS = {
     en: { title: 'In progress', lead: 'What I\'m building right now.' },
   },
   codigo: {
-    es: { title: 'Código abierto', lead: 'Mis repositorios públicos y mi perfil profesional.' },
-    en: { title: 'Open source', lead: 'My public repositories and professional profile.' },
+    es: { title: 'Código abierto', lead: 'Mis repositorios públicos y mi perfil profesional. Este portafolio también es abierto: puedes ver cómo está hecho.' },
+    en: { title: 'Open source', lead: 'My public repositories and professional profile. This portfolio is open too: see how it\'s built.' },
   },
   contacto: { es: { title: 'Contacto' }, en: { title: 'Contact' } },
 };
@@ -155,14 +159,14 @@ export const SECTIONS = {
 // Proyectos. status: prod | done | wip | lab | internal. url solo si es pública y sin datos reales.
 export const PROJECTS = [
   {
-    group: 'proyectos', status: 'prod', mono: 'BR', accent: '#7ccf4a',
+    group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.png', accent: '#7ccf4a',
     name: 'Bravo',
     es: { tag: 'Control ganadero', desc: 'App para llevar el rancho de mi abuelo: censo de animales, partos, pesos y rotación de potreros.', used: 'El rancho familiar, todos los días. Ya tiene una versión de demostración para otros ranchos.', built: 'La diseñé y la construí completa, con respaldos y reglas de seguridad probadas.' },
     en: { tag: 'Livestock management', desc: 'An app to run my grandfather\'s ranch: herd census, births, weights and pasture rotation.', used: 'The family ranch, every day. A demo version for other ranches already exists.', built: 'I designed and built it end to end, with backups and tested security rules.' },
     stack: ['Firebase', 'JavaScript', 'PWA'],
   },
   {
-    group: 'proyectos', status: 'prod', mono: 'MC', accent: '#2fb9a0',
+    group: 'proyectos', status: 'prod', mono: 'MC', logo: 'assets/logos/mi-cartera.svg', accent: '#2fb9a0',
     name: 'Mi Cartera',
     url: 'https://rl7103405-gif.github.io/mi-cartera-web/',
     es: { tag: 'Finanzas personales', desc: 'App para saber a dónde se va el dinero: cuentas, presupuesto, tarjetas e inversiones, sincronizada entre teléfonos.', used: 'Cinco personas de mi familia, más una cartera compartida de la casa.', built: 'La app, su página de presentación y una cuenta de demostración con datos inventados.' },
@@ -184,7 +188,7 @@ export const PROJECTS = [
     stack: ['Firebase', 'JavaScript'],
   },
   {
-    group: 'proyectos', status: 'done', mono: 'EL', accent: '#f08bb4',
+    group: 'proyectos', status: 'done', mono: 'EL', logo: 'assets/logos/entrelineas.svg', accent: '#f08bb4',
     name: 'Entre Líneas',
     url: 'https://rl7103405-gif.github.io/entrelineas/',
     es: { tag: 'Cliente: taller local', desc: 'Una app de gestión financiera para un taller, y una web de pedidos que manda el pedido listo por WhatsApp.', used: 'La dueña del taller. La liga es la web pública; la gestión es privada.', built: 'Las dos piezas, más un editor para que ella cambie su página sola.' },
@@ -192,7 +196,7 @@ export const PROJECTS = [
     stack: ['Firebase', 'JavaScript'],
   },
   {
-    group: 'proyectos', status: 'prod', mono: 'JG', accent: '#f3d23a',
+    group: 'proyectos', status: 'prod', mono: 'JG', logo: 'assets/logos/jaguares.png', accent: '#f3d23a',
     name: 'Jaguares NZ',
     url: 'https://rl7103405-gif.github.io/jaguarez-nz/',
     es: { tag: 'Academia de básquet', desc: 'La página de la academia de básquet donde juego: programas, horarios y contacto para niños de 6 a 17 años.', used: 'Las familias de la academia, en San Pedro Cholula.', built: 'La página y un portal de prueba para la academia.' },
@@ -216,7 +220,7 @@ export const PROJECTS = [
   { group: 'laboratorio', status: 'lab', mono: 'OA', accent: '#2fb9a0', name: 'Oficina de agentes',
     es: { tag: 'Tablero 3D', desc: 'Una oficina en 3D donde veo a mis agentes de IA: quién existe, quién trabaja ahora y cuánto se usa cada uno.' },
     en: { tag: '3D dashboard', desc: 'A 3D office where I see my AI agents: who exists, who is working now and how much each one is used.' } },
-  { group: 'laboratorio', status: 'lab', mono: 'BJ', accent: '#f3d23a', name: 'Blackjack Trainer',
+  { group: 'laboratorio', status: 'lab', mono: 'BJ', accent: '#f3d23a', name: 'Blackjack Trainer', url: 'blackjack/', play: true,
     es: { tag: 'Entrenador', desc: 'Juego para entrenar el conteo de cartas Hi-Lo paso a paso: estrategia básica, conteo y apuestas.' },
     en: { tag: 'Trainer', desc: 'A game to practise Hi-Lo card counting step by step: basic strategy, counting and betting.' } },
   { group: 'laboratorio', status: 'lab', mono: 'AG', accent: '#f08bb4', name: 'Astro Génesis',

@@ -12,16 +12,17 @@ const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&
 
 // ---------- idioma ----------
 const param = new URLSearchParams(location.search).get('lang');
-let lang = param === 'en' || param === 'es' ? param : leer('lang', 'es');
-if (lang !== 'en') lang = 'es';
+let lang = param === 'en' || param === 'es' ? param : leer('lang', 'en');
+if (lang !== 'es') lang = 'en'; // inglés por defecto: cuadra con las teclas PORTFOLIO
 
-const state = { lang, sound: leer('sound', '0') === '1', keypad: null, typer: null, current: -1 };
+const state = { lang, sound: leer('sound', '1') === '1', keypad: null, typer: null, current: -1 };
 
 // Lo que la pantallita muestra 'en reposo': el saludo o la última sección elegida.
 const lcdBase = () => (state.current >= 0 ? `> ${KEYS[state.current][state.lang].toUpperCase()}_` : UI[state.lang].lcdIdle);
 
 // Al pasar el cursor sobre una tecla, la pantallita adelanta su sección; al salir, regresa.
 function hover(i) {
+  if (i >= 0) click(true);
   if (i >= 0) setLcd(`> ${KEYS[i][state.lang].toUpperCase()}_`);
   else setLcd(lcdBase());
 }
@@ -44,10 +45,10 @@ function cardHTML(p) {
   const extra = t.used ? `<dl><div><dt>${esc(ui.used)}</dt><dd>${esc(t.used)}</dd></div><div><dt>${esc(ui.built)}</dt><dd>${esc(t.built)}</dd></div></dl>` : '';
   const stack = p.stack ? `<div class="stack">${p.stack.map((s) => `<span>${esc(s)}</span>`).join('')}</div>` : '';
   const link = p.url
-    ? `<a class="go" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(ui.open)} ↗</a>`
+    ? `<a class="go" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.play ? ui.play : ui.open)} ↗</a>`
     : (p.group === 'proyectos' ? `<span class="private">${esc(ui.private)}</span>` : '');
   return `<article class="card reveal" style="--a:${p.accent}">
-    <div class="card-top"><div class="card-icon" aria-hidden="true">${esc(p.mono)}</div>
+    <div class="card-top"><div class="card-icon${p.logo ? ' has-logo' : ''}" aria-hidden="true">${p.logo ? `<img src="${esc(p.logo)}" alt="" width="46" height="46" loading="lazy">` : esc(p.mono)}</div>
       <div><h3>${esc(t.name || p.name)}</h3><div class="tag">${esc(t.tag)}</div></div>
       <span class="badge ${p.status}">${esc(ui.status[p.status])}</span></div>
     <p>${esc(t.desc)}</p>${extra}${stack}${link}</article>`;
@@ -63,11 +64,14 @@ function renderSections() {
   }
   for (const box of $$('[data-group]')) box.innerHTML = PROJECTS.filter((p) => p.group === box.dataset.group).map(cardHTML).join('');
   for (const box of $$('[data-body]')) box.innerHTML = (SECTIONS[box.dataset.body][state.lang].body || []).map((p) => `<p class="reveal">${esc(p)}</p>`).join('');
+  $('#hobbies').innerHTML = SECTIONS.fuera[state.lang].items.map((h) =>
+    `<article class="hobby reveal"><span class="hobby-stat">${esc(h.stat)}</span><h3>${esc(h.label)}</h3><p>${esc(h.text)}</p></article>`).join('');
   $('#chips').innerHTML = SECTIONS.herramientas[state.lang].chips.map((c) => `<li class="reveal">${esc(c)}</li>`).join('');
   const linkItems = [
     ['GitHub', LINKS.github, true], ['LinkedIn', LINKS.linkedin, true],
   ];
-  $('#code-links').innerHTML = linkItems.map(([n, u]) => `<a class="ghost" href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('');
+  $('#code-links').innerHTML = linkItems.map(([n, u]) => `<a class="ghost" href="${esc(u)}" target="_blank" rel="noopener">${esc(n)} ↗</a>`).join('') +
+    `<a class="ghost" href="https://github.com/rl7103405-gif/portfolio" target="_blank" rel="noopener">${esc(UI[state.lang].repo)} ↗</a>`;
   $('#cv-link').setAttribute('href', LINKS.cv);
   $('#contact-links').innerHTML =
     `<a href="mailto:${esc(LINKS.email)}">${esc(LINKS.email)}</a>` +
@@ -106,16 +110,29 @@ function setLcd(text, animate = true, announce = false) {
 
 // ---------- sonido: un solo AudioContext, creado solo cuando el usuario lo activa ----------
 let actx = null;
-function click() {
+let ruido = null;
+function click(suave = false) {
   if (!state.sound) return;
   try {
     actx ??= new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') actx.resume();
+    if (actx.state === 'suspended') { if (suave) return; actx.resume(); } // el navegador pide un clic antes de sonar
     const t = actx.currentTime;
+    if (!ruido) {
+      ruido = actx.createBuffer(1, actx.sampleRate * 0.05, actx.sampleRate);
+      const d = ruido.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
+    }
+    // el "clac" de la tecla: ruido corto con filtro
+    const n = actx.createBufferSource(); n.buffer = ruido;
+    const bp = actx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = suave ? 3800 : 2600; bp.Q.value = 1.2;
+    const gn = actx.createGain(); gn.gain.value = suave ? 0.05 : 0.45;
+    n.connect(bp).connect(gn).connect(actx.destination); n.start(t);
+    if (suave) return;
+    // el "thock" de abajo, cuando la tecla toca fondo
     const o = actx.createOscillator(); const g = actx.createGain();
-    o.type = 'square'; o.frequency.setValueAtTime(1900, t); o.frequency.exponentialRampToValueAtTime(420, t + 0.035);
-    g.gain.setValueAtTime(0.06, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
-    o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.07);
+    o.type = 'sine'; o.frequency.setValueAtTime(190, t + 0.012); o.frequency.exponentialRampToValueAtTime(70, t + 0.09);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.35, t + 0.016); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+    o.connect(g).connect(actx.destination); o.start(t); o.stop(t + 0.13);
   } catch { /* el audio nunca debe romper la navegación */ }
 }
 

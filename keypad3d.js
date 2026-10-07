@@ -166,7 +166,7 @@ function montar(container, { keys, lcd, onPress, onHover, onFail }, limpiar) {
     const w = container.clientWidth || 1, h = container.clientHeight || 1;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    const dist = 10 + Math.max(0, 1.5 - camera.aspect) * 8;
+    const dist = 9.2 + Math.max(0, 1.5 - camera.aspect) * 8;
     camera.position.set(0, dist * 0.8, dist * 0.6);
     camera.lookAt(0, -0.15, 0.4);
     camera.updateProjectionMatrix();

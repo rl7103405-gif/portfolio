@@ -1,0 +1,523 @@
+/* Blackjack Palace — Entrenador de conteo
+   Estilo: limpio, plano, alto contraste. Un solo tema (mesa de casino). */
+
+:root {
+  --fieltro: #0e4d3a;
+  --fieltro-oscuro: #0a3a2c;
+  --marco: #072a20;
+  --crema: #f5f0e6;
+  --tinta: #1a1a1a;
+  --dorado: #d9b84a;
+  --rojo-carta: #c0392b;
+  --negro-carta: #1a1a1a;
+  --correcto: #4caf7d;
+  --error: #e05c4b;
+  --panel: #0b3529;
+  --borde-panel: #1c6b52;
+  --boton: #f5f0e6;
+  --boton-texto: #1a1a1a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 18%, #147257 0%, var(--fieltro) 46%, var(--fieltro-oscuro) 100%);
+  color: var(--crema);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden; /* todo cabe en una pantalla, sin scroll */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ── Barra superior ───────────────────────────── */
+
+#barra-superior {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 6px 14px;
+  background: var(--marco);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+#hud-grupo-nivel { cursor: pointer; align-items: center; }
+#btn-ojo {
+  background: transparent;
+  border: none;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+  filter: grayscale(0.3);
+}
+#btn-ojo:hover { filter: none; }
+#hud-niveles { display: flex; gap: 4px; }
+.nivel-punto {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--borde-panel);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.55;
+}
+.nivel-punto.superado { border-color: var(--dorado); color: var(--dorado); opacity: 0.8; }
+.nivel-punto.activo {
+  background: var(--dorado);
+  border-color: var(--dorado);
+  color: var(--tinta);
+  opacity: 1;
+}
+
+.grupo-hud { display: flex; align-items: baseline; gap: 6px; }
+.grupo-hud[hidden] { display: none; }
+.hud-etiqueta { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+.hud-valor { font-size: 20px; font-weight: 700; color: var(--dorado); }
+.hud-sub { font-size: 12px; opacity: 0.7; }
+
+.grupo-botones { margin-left: auto; display: flex; gap: 8px; }
+
+.btn-hud {
+  background: transparent;
+  border: 1px solid var(--borde-panel);
+  color: var(--crema);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  min-height: 40px;
+}
+.btn-hud:hover { background: var(--panel); }
+
+/* ── Mesa ─────────────────────────────────────── */
+
+#mesa {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 16px;
+  gap: 4px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Bandeja de descarte: discreta, en la esquina, como en la mesa real */
+#bandeja-descarte {
+  position: absolute;
+  top: 14px;
+  right: 22px;
+  text-align: center;
+  z-index: 5;
+}
+#etiqueta-descarte {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-top: 3px;
+}
+
+#zona-dealer { text-align: center; min-height: 110px; flex-shrink: 0; }
+
+#letrero-mesa {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--dorado);
+  opacity: 0.75;
+  text-transform: uppercase;
+}
+
+.etiqueta-asiento {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  margin-bottom: 6px;
+}
+
+#centro-mesa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  min-height: 40px;
+  flex-shrink: 0;
+}
+
+#mensaje-mesa {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dorado);
+  text-align: center;
+  min-height: 24px;
+}
+
+/* Pila de descarte: la referencia visual para estimar barajas */
+#pila-descarte {
+  width: 40px;
+  height: 56px;
+  margin: 0 auto;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.08);
+}
+#descarte-relleno {
+  position: absolute;
+  bottom: 2px; left: 3px; right: 3px;
+  height: 0%;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    0deg, #8c2f2f 0px, #8c2f2f 2px, #a83b3b 2px, #a83b3b 4px);
+  box-shadow: 0 -1px 2px rgba(0,0,0,0.4);
+  transition: height 0.3s;
+}
+#pila-descarte.barajando { animation: barajeo 0.5s ease-in-out infinite; }
+@keyframes barajeo {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-3px) rotate(-4deg); }
+  75% { transform: translateX(3px) rotate(4deg); }
+}
+
+#zona-asientos {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  gap: 12px;
+  align-items: end;
+}
+
+.asiento { text-align: center; min-height: 105px; }
+.asiento-principal { min-height: 125px; }
+
+/* ── Cartas ───────────────────────────────────── */
+
+.cartas {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  min-height: 74px;
+}
+
+.carta {
+  width: 58px;
+  height: 82px;
+  background: linear-gradient(150deg, #ffffff 0%, #f6f2e8 100%);
+  border-radius: 8px;
+  border: 1px solid #cfc8b8;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 7px;
+  font-weight: 700;
+  box-shadow: 0 3px 7px rgba(0,0,0,0.38), 0 1px 0 rgba(255,255,255,0.25);
+  animation: entra-carta 0.25s ease-out;
+  overflow: hidden;
+}
+.cartas-chicas .carta { width: 44px; height: 62px; font-size: 13px; }
+
+@keyframes entra-carta {
+  from { transform: translateY(-14px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.carta .esquina { font-size: 16px; line-height: 1.05; }
+.cartas-chicas .carta .esquina { font-size: 13px; }
+.carta .palo-centro {
+  font-size: 26px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 4px;
+}
+.cartas-chicas .carta .palo-centro { font-size: 20px; }
+.carta.roja { color: var(--rojo-carta); }
+.carta.negra { color: var(--negro-carta); }
+
+.carta.oculta {
+  background: repeating-linear-gradient(
+    45deg, #7a1f1f 0px, #7a1f1f 6px, #922727 6px, #922727 12px);
+  border-color: #5d1717;
+}
+.carta.oculta > * { visibility: hidden; }
+
+.total-mano {
+  margin-top: 6px;
+  font-size: 16px;
+  font-weight: 700;
+  min-height: 22px;
+}
+.total-mano .res-gana { color: var(--correcto); }
+.total-mano .res-pierde { color: var(--error); }
+.total-mano .res-empata { color: var(--dorado); }
+
+/* Manos del jugador (puede haber varias por splits) */
+#manos-jugador { display: flex; justify-content: center; gap: 10px; flex-wrap: nowrap; }
+.mano-jugador { padding: 4px; border-radius: 10px; border: 2px solid transparent; }
+.mano-jugador .cartas { min-height: 0; }
+.mano-jugador.activa { border-color: var(--dorado); background: rgba(217, 184, 74, 0.08); }
+.mano-apuesta { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+
+#sugerencia-coach[hidden] { display: none; }
+#sugerencia-coach {
+  margin-top: 10px;
+  display: inline-block;
+  background: var(--dorado);
+  color: var(--tinta);
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 15px;
+}
+
+/* ── Panel de acciones ────────────────────────── */
+
+#panel-acciones {
+  background: var(--marco);
+  padding: 8px 14px;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.3);
+}
+
+#panel-apuesta, #panel-jugada, #panel-seguro, #panel-siguiente {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#panel-apuesta[hidden], #panel-jugada[hidden],
+#panel-seguro[hidden], #panel-siguiente[hidden] { display: none; }
+
+#fichas { display: flex; gap: 8px; }
+
+.ficha {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 4px dashed rgba(255,255,255,0.7);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  color: #fff;
+}
+.ficha[data-valor="50"]  { background: #b23a3a; }
+.ficha[data-valor="100"] { background: #2e6da4; }
+.ficha[data-valor="200"] { background: #3a8a5f; }
+.ficha[data-valor="500"] { background: #6b4fa0; }
+.ficha[data-valor="1000"] { background: #b8860b; font-size: 12px; }
+.ficha:active { transform: scale(0.94); }
+
+#apuesta-actual { font-size: 17px; }
+
+.btn-principal, .btn-accion, .btn-secundario {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 46px;
+  min-width: 88px;
+}
+
+.btn-principal {
+  background: linear-gradient(180deg, #e3c65e, #cfae3f);
+  color: var(--tinta);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.btn-accion {
+  background: linear-gradient(180deg, #fbf7ee, #ece5d5);
+  color: var(--boton-texto);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.btn-secundario {
+  background: transparent;
+  color: var(--crema);
+  border: 1px solid var(--borde-panel);
+}
+.btn-principal:disabled, .btn-accion:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ── Toast del coach ──────────────────────────── */
+
+#toast {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--tinta);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 90vw;
+  text-align: center;
+  z-index: 50;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+}
+#toast.correcto { background: #1d5c3e; }
+#toast.error { background: #8c2f24; }
+#toast[hidden] { display: none; }
+
+/* ── Modales ──────────────────────────────────── */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+.modal[hidden] { display: none; }
+
+.modal-caja {
+  background: var(--crema);
+  color: var(--tinta);
+  border-radius: 14px;
+  padding: 24px;
+  max-width: 560px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+.modal-ancha { max-width: 760px; }
+
+.modal-caja h2 { margin-bottom: 14px; font-size: 22px; }
+.modal-caja p { margin-bottom: 10px; line-height: 1.45; }
+
+.nota-alerta {
+  background: #fdeecd;
+  border-left: 4px solid #d9a13b;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.nota-chica { font-size: 13px; opacity: 0.75; }
+
+.config-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid #ddd5c4;
+  gap: 12px;
+}
+.config-fila select {
+  font-size: 15px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #b9b2a4;
+  background: #fff;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.lista-checklist { padding-left: 20px; }
+.lista-checklist li { margin-bottom: 12px; line-height: 1.45; }
+
+/* Quiz */
+.quiz-paso p { font-size: 16px; font-weight: 600; }
+.quiz-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 16px;
+}
+.quiz-opciones button {
+  min-width: 58px;
+  min-height: 48px;
+  font-size: 17px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 2px solid #b9b2a4;
+  background: #fff;
+  cursor: pointer;
+}
+.quiz-opciones button:hover { border-color: var(--tinta); }
+
+#quiz-resultado { font-size: 15px; line-height: 1.5; margin-bottom: 12px; }
+#quiz-resultado .bien { color: #1d5c3e; font-weight: 700; }
+#quiz-resultado .mal { color: #8c2f24; font-weight: 700; }
+
+/* Tablas de estrategia */
+#contenido-tablas h3 { margin: 16px 0 8px; font-size: 17px; }
+#contenido-tablas p { font-size: 14px; }
+.tabla-estrategia {
+  border-collapse: collapse;
+  font-size: 12.5px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+.tabla-estrategia th, .tabla-estrategia td {
+  border: 1px solid #b9b2a4;
+  padding: 4px 5px;
+  text-align: center;
+  min-width: 26px;
+}
+.tabla-estrategia th { background: #e6dfd0; }
+.tabla-estrategia td.ac-H { background: #ffffff; }
+.tabla-estrategia td.ac-S { background: #f7d9a0; }
+.tabla-estrategia td.ac-D { background: #bcd9c4; }
+.tabla-estrategia td.ac-P { background: #c7d4ea; }
+.tabla-estrategia td.ac-R { background: #e8b8b0; }
+.envoltura-tabla { overflow-x: auto; }
+
+/* Progreso */
+#contenido-progreso .metrica {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd5c4;
+  font-size: 15px;
+}
+#contenido-progreso .metrica strong { font-variant-numeric: tabular-nums; }
+#contenido-progreso .requisitos {
+  margin-top: 14px;
+  background: #eee7d6;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── Responsivo ───────────────────────────────── */
+
+@media (max-width: 720px) {
+  #zona-asientos { grid-template-columns: 1fr; }
+  .asiento { min-height: 0; }
+  #barra-superior { gap: 12px; }
+  .hud-valor { font-size: 17px; }
+  .carta { width: 56px; height: 80px; }
+  .ficha { width: 52px; height: 52px; font-size: 12px; }
+}
