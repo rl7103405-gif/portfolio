@@ -1,5 +1,5 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007e';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007f';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -69,7 +69,7 @@ function renderSections() {
   const tool = SECTIONS.herramientas[state.lang];
   $('#pipeline').innerHTML = tool.steps.map((s, i) =>
     `<li class="step reveal" style="--c:${KEYS[i % KEYS.length].color}"><span class="step-n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3>${esc(s.name)}</h3><span class="step-who">${esc(s.who)}</span><p>${esc(s.text)}</p></li>`).join('');
-  $('#office-img').alt = tool.office.alt;
+  $('#office-img').alt = tool.office.alt; $('#office-big').alt = tool.office.alt;
   $('#office-copy').innerHTML =
     `<p class="office-kicker">${esc(tool.office.kicker)}</p><h3>${esc(tool.office.title)}</h3><p>${esc(tool.office.text)}</p>
      <dl class="office-stats">${tool.office.stats.map(([n, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(n)}</dd></div>`).join('')}</dl>`;
@@ -239,29 +239,33 @@ function bindCards() {
 function webgl2() { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } }
 
 let carga3D = 0; // token: una carga vieja no debe montarse si cambió algo mientras esperaba
+const sinEspera = () => document.documentElement.classList.remove('wait-3d');
+
 async function load3D() {
-  if (reduced.matches || !webgl2()) return;
+  if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007e');
+    const mod = await import('./keypad3d.js?v=20261007f');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
       onHover: (i) => hover(i),
-      onFail: () => { document.documentElement.classList.remove('has-3d'); state.keypad = null; },
+      onFail: () => { document.documentElement.classList.remove('has-3d'); sinEspera(); state.keypad = null; },
     });
     if (reduced.matches || token !== carga3D) { keypad.dispose(); return; }
     state.keypad = keypad;
     state.keypad.setLcd(lcdBase(), false);
     document.documentElement.classList.add('has-3d');
+    sinEspera();
   } catch (err) {
     console.warn('3D no disponible, se queda el respaldo HTML:', err);
     document.documentElement.classList.remove('has-3d');
+    sinEspera();
     state.keypad = null;
   }
 }
 
-reduced.addEventListener?.('change', () => { if (reduced.matches) { carga3D++; state.keypad?.dispose(); state.keypad = null; document.documentElement.classList.remove('has-3d'); } renderAll(); });
+reduced.addEventListener?.('change', () => { if (reduced.matches) { carga3D++; state.keypad?.dispose(); state.keypad = null; document.documentElement.classList.remove('has-3d'); sinEspera(); } renderAll(); });
 
 renderAll();
 
@@ -277,6 +281,14 @@ if (anclaIdx >= 0) {
 if (!navigator.connection?.saveData) {
   if ('requestIdleCallback' in window) requestIdleCallback(load3D, { timeout: 2000 });
   else setTimeout(load3D, 200);
+}
+
+// ---------- oficina en grande ----------
+const dlg = $('#office-dlg');
+$('#office-open').addEventListener('click', () => { if (dlg.showModal) dlg.showModal(); else window.open($('#office-big').src, '_blank', 'noopener'); });
+if (dlg.showModal) {
+  $('#office-close').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // clic fuera de la imagen
 }
 
 // ---------- botón "volver al teclado" ----------

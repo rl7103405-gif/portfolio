@@ -67,11 +67,14 @@ h1 b { color: var(--accent); font-weight: 700; }
 h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-sub { color: var(--ink-2); max-width: 700px; margin: 4px auto 0; font-size: clamp(15px, 1.6vw, 18px); }
 
-.device-wrap { position: relative; width: min(920px, 100%, max(320px, calc((100svh - 330px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
+.device-wrap { position: relative; container-type: inline-size; width: min(920px, 100%, max(320px, calc((100svh - 330px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
 .device-wrap:focus-visible { outline-offset: 6px; }
 .device-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; touch-action: pan-y; }
 .has-3d .device-3d { opacity: 1; }
 .has-3d .device-html { visibility: hidden; }
+.device-html { transition: opacity .5s ease; }
+.wait-3d .device-html { opacity: 0; }
+.wait-3d .device-wrap:focus-within .device-html { opacity: 1; } /* con teclado (Tab) nunca se navega a ciegas */
 .device-3d canvas { width: 100% !important; height: 100% !important; display: block; cursor: default; }
 
 /* Respaldo HTML del aparato */
@@ -83,19 +86,20 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 }
 .lcd {
   background: #0d1a0f; border: 6px solid #262a30; border-radius: 12px; padding: 4% 5%; text-align: left;
-  font: clamp(18px, 3.4vw, 34px)/1 "VT323", monospace; color: var(--lcd); text-shadow: 0 0 10px rgba(156,255,122,.6);
+  font: clamp(18px, 3.4vw, 34px)/1 "VT323", monospace; color: var(--lcd); white-space: nowrap; overflow: hidden; text-shadow: 0 0 10px rgba(156,255,122,.6);
   background-image: repeating-linear-gradient(0deg, rgba(0,0,0,.25) 0 2px, transparent 2px 4px);
 }
 .grille { height: 10px; border-radius: 4px; background: repeating-linear-gradient(90deg, #e9862a 0 6px, #b85d14 6px 9px); opacity: .9; }
-.keys { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3%; align-content: center; }
+.keys { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 5% 3%; min-height: 0; padding-bottom: 2%; }
 .key {
-  --c: #999; position: relative; aspect-ratio: 1; border: 0; border-radius: 14%; cursor: pointer;
+  --c: #999; position: relative; min-height: 0; border: 0; border-radius: 14%; cursor: pointer;
   font: 700 clamp(16px, 3.4vw, 34px) "Bricolage Grotesque", sans-serif; color: #1a1a1a;
   background: linear-gradient(180deg, color-mix(in srgb, var(--c) 92%, #fff) 0%, var(--c) 60%);
   box-shadow: 0 7px 0 color-mix(in srgb, var(--c) 55%, #000), 0 12px 18px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.45);
   transform: translateY(0); transition: transform .08s ease, box-shadow .08s ease;
 }
-.key.wide { aspect-ratio: auto; }
+/* Con container queries, el respaldo escala con el aparato y no con la ventana */
+@supports (font-size: 1cqw) { .lcd { font-size: 4.6cqw; } .key { font-size: 4.4cqw; } }
 .key[data-dark] { color: #eceae4; }
 .key:hover { transform: translateY(-2px); }
 .key:active, .key.pressed { transform: translateY(6px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 55%, #000), 0 4px 8px rgba(0,0,0,.4), inset 0 2px 0 rgba(255,255,255,.4); }
@@ -279,4 +283,27 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
   .step { display: grid; grid-template-columns: 34px 1fr; column-gap: 14px; row-gap: 2px; padding: 14px 16px; }
   .step-n { grid-row: span 3; margin: 0; }
   .office { grid-template-columns: 1fr; }
+}
+
+/* Fábrica: el párrafo de la empresa antes de las tarjetas */
+.prose-tight { margin: -8px 0 28px; }
+.prose-tight p { color: var(--ink-2); }
+.prose-tight p:first-child { color: var(--ink); }
+
+/* Oficina: la captura es un botón que abre la vista grande */
+button.office-shot { position: relative; display: block; width: 100%; padding: 0; cursor: zoom-in; background: #161a22; color: inherit; font: inherit; }
+.zoom-hint {
+  position: absolute; right: 12px; bottom: 12px; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+  font-size: 18px; color: var(--ink); background: rgba(11,13,16,.75); border: 1px solid var(--line); backdrop-filter: blur(6px);
+  opacity: .85; transition: opacity .2s, transform .2s;
+}
+button.office-shot:hover .zoom-hint { opacity: 1; transform: scale(1.06); }
+.lightbox { padding: 0; border: 1px solid var(--line); border-radius: var(--radius); background: #161a22; max-width: min(1400px, 94vw); max-height: 92svh; overflow: auto; }
+.lightbox:not([open]) { display: none; }
+body:has(.lightbox[open]) { overflow: hidden; }
+.lightbox::backdrop { background: rgba(5,6,8,.82); backdrop-filter: blur(4px); }
+.lightbox img { width: 100%; height: auto; display: block; }
+.lightbox-close {
+  position: sticky; float: right; top: 10px; margin: 10px 10px -52px 0; width: 42px; height: 42px; border-radius: 12px; cursor: pointer;
+  font: 700 16px "Geist Mono", monospace; color: var(--ink); background: rgba(11,13,16,.85); border: 1px solid var(--line); z-index: 1;
 }

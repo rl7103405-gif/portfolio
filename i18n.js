@@ -19,6 +19,8 @@ export const UI = {
     play: 'Jugarlo',
     repo: 'Código de este portafolio',
     private: 'Privada: tiene datos reales. Demo en video, pronto.',
+    zoom: 'Ver en grande',
+    close: 'Cerrar',
     status: { prod: 'En producción', done: 'Entregado', wip: 'En progreso', lab: 'Experimento', internal: 'Interna' },
     used: 'Quién la usa',
     built: 'Qué hice',
@@ -44,6 +46,8 @@ export const UI = {
     play: 'Play it',
     repo: 'This portfolio\'s code',
     private: 'Private: it holds real data. Video demo coming soon.',
+    zoom: 'View larger',
+    close: 'Close',
     status: { prod: 'In production', done: 'Delivered', wip: 'In progress', lab: 'Experiment', internal: 'Internal' },
     used: 'Who uses it',
     built: 'What I did',
@@ -144,8 +148,22 @@ export const SECTIONS = {
     },
   },
   fabrica: {
-    es: { title: 'Fábrica', lead: 'Herramientas internas para Deportivos Quini, la fábrica textil de mi familia. Son privadas: las muestro sin datos reales.' },
-    en: { title: 'Factory', lead: 'Internal tools for Deportivos Quini, my family\'s textile factory. They are private: shown without real data.' },
+    es: {
+      title: 'Fábrica',
+      lead: 'Trabajo en Deportivos Quini, la empresa textil de mi familia. Estas son las herramientas que he construido para ella.',
+      body: [
+        'Quini fabrica calcetines en Puebla desde 1979: 121 máquinas de tejido y capacidad para 20 millones de pares al año, para marcas propias, deportivas y de moda, con certificación SMETA.',
+        'Mi trabajo es convertir cómo funciona la planta de verdad (muestras, mantenimiento, embarques, fichas técnicas) en software que el equipo usa todos los días. Son herramientas privadas: las muestro sin datos reales.',
+      ],
+    },
+    en: {
+      title: 'Factory',
+      lead: 'I work at Deportivos Quini, my family\'s textile company. These are the tools I\'ve built for it.',
+      body: [
+        'Quini has been making socks in Puebla since 1979: 121 knitting machines and capacity for 20 million pairs a year, for private-label, sports and fashion brands, with SMETA certification.',
+        'My job is turning how the plant really works (samples, maintenance, shipping, tech sheets) into software the team uses every day. The tools are private, so I show them without real data.',
+      ],
+    },
   },
   fuera: {
     es: {
@@ -153,7 +171,7 @@ export const SECTIONS = {
       lead: 'Lo que hago cuando no estoy construyendo.',
       items: [
         { stat: 'Básquet', label: 'Capitán del equipo', text: 'Capitán del equipo del Colegio Humboldt de 2023 a 2026 y titular en la Academia Jaguares, en San Pedro Cholula. En Sydney sigo jugando en liga.' },
-        { stat: 'Jiu-jitsu', label: 'Jiu-jitsu brasileño', text: 'Cuatro campeonatos nacionales.' },
+        { stat: 'Jiu-jitsu y MMA', label: 'Deportes de combate', text: 'Cuatro campeonatos nacionales de jiu-jitsu brasileño. En MMA quedé 2-0 en peleas amateur; entrené de 2022 a 2024.' },
         { stat: 'Rownies', label: 'Mi marca de brownies · desde 2023', text: 'Produzco, costeo y vendo. Cada año pongo un puesto en el Oktoberfest del Colegio Humboldt, con unas 3,600 personas.' },
       ],
     },
@@ -162,7 +180,7 @@ export const SECTIONS = {
       lead: 'What I do when I\'m not building.',
       items: [
         { stat: 'Basketball', label: 'Team captain', text: 'Team captain at Colegio Humboldt from 2023 to 2026 and starting player at Academia Jaguares in San Pedro Cholula. I keep playing league in Sydney.' },
-        { stat: 'Jiu-Jitsu', label: 'Brazilian Jiu-Jitsu', text: 'Four national championships.' },
+        { stat: 'Jiu-Jitsu & MMA', label: 'Combat sports', text: 'Four national championships in Brazilian jiu-jitsu. In MMA I went 2–0 in amateur fights; I trained from 2022 to 2024.' },
         { stat: 'Rownies', label: 'My brownie brand · since 2023', text: 'I make, cost and sell them. Every year I run a stall at the Colegio Humboldt Oktoberfest, about 3,600 people.' },
       ],
     },
@@ -185,7 +203,7 @@ export const SECTIONS = {
 // Proyectos. status: prod | done | wip | lab | internal. url solo si es pública y sin datos reales.
 export const PROJECTS = [
   {
-    group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.svg', accent: '#7ccf4a',
+    group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.svg?v=3', accent: '#7ccf4a',
     name: 'Bravo',
     url: 'https://rl7103405-gif.github.io/control-ganadero/',
     es: { tag: 'Control ganadero', desc: 'App para llevar el rancho de mi abuelo: censo de animales, partos, pesos y rotación de potreros.', used: 'El rancho familiar, todos los días. Ya tiene una versión de demostración para otros ranchos.', built: 'La diseñé y la construí completa, con respaldos y reglas de seguridad probadas.' },

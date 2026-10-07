@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;700&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261007e">
+<link rel="stylesheet" href="styles.css?v=20261007f">
 <script type="importmap">
 {
   "imports": {
@@ -22,6 +22,18 @@
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/"
   }
 }
+</script>
+<script>
+// Si el 3D va a cargar, el respaldo HTML no se pinta mientras llega (evita el parpadeo de la entrada).
+// Si el 3D falla o tarda más de 5 s, el respaldo aparece igual.
+(function () {
+  try {
+    var d = document.documentElement, c = document.createElement('canvas');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData) || !c.getContext('webgl2')) return;
+    d.classList.add('wait-3d');
+    setTimeout(function () { d.classList.remove('wait-3d'); }, 5000);
+  } catch (e) { /* sin 3D: se queda el respaldo */ }
+})();
 </script>
 </head>
 <body>
@@ -77,13 +89,13 @@
     <div class="sec-head"></div>
     <ol class="pipeline" id="pipeline" role="list"></ol>
     <div class="office reveal" id="office">
-      <div class="office-shot"><img src="assets/oficina-agentes.webp" alt="The agents office: leadership at the top and the Review, Workshop, Testing and Security departments with their agents." width="1400" height="869" loading="lazy" id="office-img"></div>
+      <button type="button" class="office-shot" id="office-open"><img src="assets/oficina-agentes-oscuro.webp" alt="The agents office: leadership at the top and the Review, Workshop, Testing and Security departments with their agents." width="2160" height="1340" loading="lazy" id="office-img"><span class="zoom-hint" aria-hidden="true">⤢</span><span class="sr-only" data-i18n="zoom">View larger</span></button>
       <div class="office-copy" id="office-copy"></div>
     </div>
     <div class="prose" data-body="herramientas"></div>
     <ul class="chips" id="chips"></ul>
   </section>
-  <section class="sec" id="fabrica" data-key="F"><div class="sec-head"></div><div class="cards" data-group="fabrica"></div></section>
+  <section class="sec" id="fabrica" data-key="F"><div class="sec-head"></div><div class="prose prose-tight" data-body="fabrica"></div><div class="cards" data-group="fabrica"></div></section>
   <section class="sec" id="fuera" data-key="O"><div class="sec-head"></div><div class="hobbies" id="hobbies"></div></section>
   <section class="sec" id="laboratorio" data-key="L"><div class="sec-head"></div><div class="cards" data-group="laboratorio"></div></section>
   <section class="sec" id="en-proceso" data-key="I"><div class="sec-head"></div><div class="cards" data-group="en-proceso"></div></section>
@@ -96,10 +108,15 @@
   </section>
 </main>
 
+<dialog class="lightbox" id="office-dlg" data-i18n-aria="zoom" aria-label="View larger">
+  <button type="button" class="lightbox-close" id="office-close" data-i18n-aria="close" aria-label="Close">✕</button>
+  <img src="assets/oficina-agentes-oscuro.webp" alt="" width="2160" height="1340" id="office-big">
+</dialog>
+
 <button class="to-top" id="to-top" type="button" data-i18n-aria="toTop" aria-label="Volver al teclado"><span aria-hidden="true">↑</span><span data-i18n="toTop">Volver al teclado</span></button>
 
 <footer class="foot"><p data-i18n="footer"></p></footer>
 
-<script type="module" src="app.js?v=20261007e"></script>
+<script type="module" src="app.js?v=20261007f"></script>
 </body>
 </html>
