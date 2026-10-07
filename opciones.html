@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roberto Linares · Opciones de diseño</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Geist:wght@400;500&family=Geist+Mono:wght@500;700&family=Unbounded:wght@700;800&family=Archivo:wdth,wght@125,800;100,400&family=Instrument+Serif:ital@0;1&family=Syne:wght@700;800&family=JetBrains+Mono:wght@500;800&family=Space+Mono:wght@400;700&family=Familjen+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #0b0d10; color: #eceae4; font: 15px/1.5 system-ui, sans-serif; padding: 28px; }
+  h1 { font: 700 22px system-ui; margin: 0 0 4px; } .note { color: #9aa0a8; margin: 0 0 24px; }
+  h2 { font: 700 16px system-ui; margin: 36px 0 12px; color: #ef5a3c; letter-spacing: 1px; text-transform: uppercase; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 18px; }
+  .opt { border: 1px solid #22262e; border-radius: 18px; overflow: hidden; background: #12151a; }
+  .opt header { display: flex; justify-content: space-between; padding: 10px 16px; font: 600 13px system-ui; color: #9aa0a8; border-bottom: 1px solid #22262e; }
+  .opt header b { color: #eceae4; }
+  .demo { padding: 34px 26px; text-align: center; min-height: 230px; display: grid; place-content: center; gap: 10px; position: relative; overflow: hidden; }
+  .demo .k { letter-spacing: 3px; text-transform: uppercase; font-size: 12px; color: #9aa0a8; }
+  .demo .t { font-size: 40px; line-height: 1.04; margin: 0; }
+  .demo .t b { color: #ef5a3c; } .demo .t em { font-style: normal; color: #7ccf4a; }
+  .demo .s { color: #9aa0a8; font-size: 15px; margin: 0; }
+  .demo .keys { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
+  .demo .keys span { width: 34px; height: 34px; border-radius: 8px; display: grid; place-items: center; color: #1a1a1a; font-weight: 800; box-shadow: 0 4px 0 rgba(0,0,0,.45); }
+  /* ---- fuentes ---- */
+  .f1 .t { font-family: "Bricolage Grotesque"; font-weight: 800; } .f1 .s { font-family: "Geist"; } .f1 .k, .f1 .keys span { font-family: "Geist Mono"; }
+  .f2 .t { font-family: "Unbounded"; font-weight: 800; font-size: 32px; letter-spacing: -1px; } .f2 .s { font-family: "Geist"; } .f2 .k, .f2 .keys span { font-family: "Unbounded"; font-size: 13px; }
+  .f3 .t { font-family: "Archivo"; font-stretch: 125%; font-weight: 800; font-size: 34px; letter-spacing: -.5px; } .f3 .s { font-family: "Archivo"; font-stretch: 100%; } .f3 .k, .f3 .keys span { font-family: "JetBrains Mono"; font-weight: 800; }
+  .f4 .t { font-family: "Instrument Serif"; font-weight: 400; font-size: 48px; } .f4 .t em { font-style: italic; } .f4 .s { font-family: "Geist Mono"; font-size: 13px; } .f4 .k, .f4 .keys span { font-family: "Geist Mono"; }
+  .f5 .t { font-family: "Syne"; font-weight: 800; } .f5 .s { font-family: "Familjen Grotesk"; } .f5 .k, .f5 .keys span { font-family: "Space Mono"; font-weight: 700; }
+  .f6 .t { font-family: "JetBrains Mono"; font-weight: 800; font-size: 32px; letter-spacing: -1px; } .f6 .s, .f6 .k, .f6 .keys span { font-family: "JetBrains Mono"; }
+  /* ---- fondos ---- */
+  .b .demo { font-family: "Bricolage Grotesque"; } .b .demo .t { font-weight: 800; }
+  .combo { border-color: #ef5a3c; }
+  .b1 .demo { background:
+    radial-gradient(420px 240px at 15% 8%, rgba(239,90,60,.18), transparent 70%),
+    radial-gradient(380px 240px at 88% 18%, rgba(47,185,160,.16), transparent 70%),
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,.09) 1px, transparent 1.4px) 0 0 / 26px 26px, #0b0d10; }
+  .b2 .demo { background:
+    radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(0,0,0,.75) 100%),
+    repeating-linear-gradient(0deg, rgba(156,255,122,.045) 0 1px, transparent 1px 4px), #070908; }
+  .b3 .demo { background: #0b0d10; }
+  .b3 .demo::before { content: ""; position: absolute; inset: -40%; z-index: 0; filter: blur(60px); opacity: .55;
+    background: conic-gradient(from 0deg at 50% 50%, #ef5a3c, #f3d23a, #2fb9a0, #6b5cff, #ef5a3c); animation: gira 18s linear infinite; }
+  .b3 .demo > * { position: relative; z-index: 1; }
+  @keyframes gira { to { transform: rotate(1turn); } }
+  .b4 .demo { background:
+    linear-gradient(rgba(120,170,255,.10) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(120,170,255,.10) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(rgba(120,170,255,.05) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(120,170,255,.05) 1px, transparent 1px) 0 0 / 24px 24px, #0a1020; }
+  .b5 .demo { background: linear-gradient(160deg, #1a1410 0%, #0b0d10 55%, #0d1412 100%); }
+  .b5 .demo::after { content: ""; position: absolute; inset: 0; opacity: .12; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .b6 .demo { background: radial-gradient(600px 300px at 50% 120%, rgba(239,90,60,.35), transparent 70%), #0b0d10; }
+</style>
+</head>
+<body>
+<h1>Ayúdame a escoger el diseño de mi portafolio</h1>
+<p class="note">Estoy decidiendo la letra y el fondo de <a href="./" style="color:#eceae4">mi portafolio</a>. Mándame por WhatsApp <b>tu favorita de cada uno</b>, por ejemplo: <b>F2 y B5</b>. Las que tienen ★ son las que me gustan a mí, pero quiero tu opinión sincera.</p>
+<h2>Mi combinación hasta ahora: F2 + B5</h2>
+<div class="grid"><div class="opt f2 b5 combo"><header><b>★ F2 + B5 · Unbounded + Geist sobre liso cálido con grano</b><span>la que llevo</span></header></div></div>
+
+<h2>Fuentes</h2>
+<div class="grid" id="fuentes"></div>
+<h2>Fondos</h2>
+<div class="grid" id="fondos"></div>
+
+<template id="demo">
+  <div class="demo">
+    <div class="k">Portfolio · 2026</div>
+    <p class="t">Hi, I'm <b>Roberto</b>.<br>I build <em>real</em> tools with AI.</p>
+    <p class="s">Apps that a ranch, a factory and my family use every day.</p>
+    <div class="keys"><span style="background:#ef5a3c">P</span><span style="background:#f39a2b">O</span><span style="background:#efe3c8">R</span><span style="background:#2fb9a0">T</span><span style="background:#7ccf4a">F</span></div>
+  </div>
+</template>
+<script>
+  const F = [
+    ['F1', 'Bricolage Grotesque + Geist', 'la actual: amable, con algo retro'],
+    ['F2', '★ Unbounded + Geist', 'ancha y técnica, como de hardware o videojuego'],
+    ['F3', 'Archivo ancha + JetBrains Mono', 'industrial, como placa de máquina'],
+    ['F4', 'Instrument Serif + Geist Mono', 'editorial y elegante; contraste con lo técnico'],
+    ['F5', 'Syne + Familjen Grotesk', 'de estudio de diseño, con personalidad rara'],
+    ['F6', 'Todo JetBrains Mono', 'terminal: todo como la pantallita del teclado'],
+  ];
+  const B = [
+    ['B1', 'Brillos + puntos + grano', 'el actual'],
+    ['B2', 'CRT: líneas de pantalla vieja + viñeta', 'va con la pantallita verde'],
+    ['B3', 'Aurora de color que gira lento', 'el más llamativo; se mueve'],
+    ['B4', 'Plano de ingeniero (blueprint)', 'cuadrícula azul, guiño a la ingeniería'],
+    ['B5', '★ Liso cálido con grano', 'el más sobrio; deja que el teclado brille'],
+    ['B6', 'Negro con resplandor abajo', 'como si el teclado estuviera iluminado'],
+  ];
+  const tpl = document.getElementById('demo');
+  const pinta = (lista, box, cls) => lista.forEach(([id, n, d]) => {
+    const el = document.createElement('div');
+    el.className = `opt ${cls} ${cls === 'b' ? 'b' + id.slice(1) : 'f' + id.slice(1)}`;
+    el.innerHTML = `<header><b>${id} · ${n}</b><span>${d}</span></header>`;
+    el.appendChild(tpl.content.cloneNode(true));
+    document.getElementById(box).appendChild(el);
+  });
+  document.querySelector('.combo').appendChild(tpl.content.cloneNode(true));
+  pinta(F, 'fuentes', 'f');
+  pinta(B, 'fondos', 'b');
+</script>
+</body>
+</html>
