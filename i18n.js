@@ -161,6 +161,7 @@ export const PROJECTS = [
   {
     group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.png', accent: '#7ccf4a',
     name: 'Bravo',
+    url: 'https://rl7103405-gif.github.io/control-ganadero/',
     es: { tag: 'Control ganadero', desc: 'App para llevar el rancho de mi abuelo: censo de animales, partos, pesos y rotación de potreros.', used: 'El rancho familiar, todos los días. Ya tiene una versión de demostración para otros ranchos.', built: 'La diseñé y la construí completa, con respaldos y reglas de seguridad probadas.' },
     en: { tag: 'Livestock management', desc: 'An app to run my grandfather\'s ranch: herd census, births, weights and pasture rotation.', used: 'The family ranch, every day. A demo version for other ranches already exists.', built: 'I designed and built it end to end, with backups and tested security rules.' },
     stack: ['Firebase', 'JavaScript', 'PWA'],
@@ -190,9 +191,8 @@ export const PROJECTS = [
   {
     group: 'proyectos', status: 'done', mono: 'EL', logo: 'assets/logos/entrelineas.svg', accent: '#f08bb4',
     name: 'Entre Líneas',
-    url: 'https://rl7103405-gif.github.io/entrelineas/',
-    es: { tag: 'Cliente: taller local', desc: 'Una app de gestión financiera para un taller, y una web de pedidos que manda el pedido listo por WhatsApp.', used: 'La dueña del taller. La liga es la web pública; la gestión es privada.', built: 'Las dos piezas, más un editor para que ella cambie su página sola.' },
-    en: { tag: 'Client: local workshop', desc: 'A financial management app for a workshop, plus an ordering site that sends the order ready-made over WhatsApp.', used: 'The workshop owner. The link is the public site; the management app is private.', built: 'Both pieces, plus an editor so she can update her site herself.' },
+    es: { tag: 'Cliente: taller local', desc: 'Una app de gestión financiera para un taller: pedidos ordenados por prioridad, cobros, inventario y un resumen de lo vendido contra lo cobrado.', used: 'La dueña del taller y su equipo, cada quien con su rol. Me la encargó y la pagó.', built: 'La app completa, a la medida de cómo trabaja ella.' },
+    en: { tag: 'Client: local workshop', desc: 'A financial management app for a workshop: orders sorted by priority, payments, inventory and a summary of what was sold versus collected.', used: 'The workshop owner and her team, each with their own role. She commissioned it and paid for it.', built: 'The whole app, tailored to the way she works.' },
     stack: ['Firebase', 'JavaScript'],
   },
   {

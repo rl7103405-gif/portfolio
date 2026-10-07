@@ -62,12 +62,12 @@ a { color: inherit; }
   padding: 84px clamp(16px, 4vw, 40px) 40px; text-align: center;
 }
 .kicker { font: 500 13px "Geist Mono", monospace; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-2); margin: 0; }
-h1 { font: 700 clamp(30px, 5.4vw, 64px)/1.04 "Bricolage Grotesque", sans-serif; margin: 6px 0 0; letter-spacing: -1px; }
+h1 { font: 700 clamp(26px, 4.4vw, 52px)/1.04 "Bricolage Grotesque", sans-serif; margin: 6px 0 0; letter-spacing: -1px; }
 h1 b { color: var(--accent); font-weight: 700; }
 h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-sub { color: var(--ink-2); max-width: 560px; margin: 8px auto 0; font-size: clamp(15px, 1.6vw, 18px); }
 
-.device-wrap { position: relative; width: min(760px, 100%, max(320px, calc((100svh - 470px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
+.device-wrap { position: relative; width: min(820px, 100%, max(320px, calc((100svh - 440px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
 .device-wrap:focus-visible { outline-offset: 6px; }
 .device-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; touch-action: pan-y; }
 .has-3d .device-3d { opacity: 1; }

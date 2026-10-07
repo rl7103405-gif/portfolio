@@ -1,5 +1,5 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007c';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007d';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -236,7 +236,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) return;
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007c');
+    const mod = await import('./keypad3d.js?v=20261007d');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
