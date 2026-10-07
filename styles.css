@@ -58,16 +58,16 @@ a { color: inherit; }
 
 /* Portada */
 .hero {
-  min-height: 100svh; display: grid; place-items: center; align-content: center; gap: 14px;
-  padding: 84px clamp(16px, 4vw, 40px) 40px; text-align: center;
+  min-height: 100svh; display: grid; place-items: center; align-content: center; gap: 10px;
+  padding: 68px clamp(16px, 4vw, 40px) 24px; text-align: center;
 }
 .kicker { font: 500 13px "Geist Mono", monospace; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-2); margin: 0; }
-h1 { font: 700 clamp(26px, 4.4vw, 52px)/1.04 "Bricolage Grotesque", sans-serif; margin: 6px 0 0; letter-spacing: -1px; }
+h1 { font: 700 clamp(26px, 4.4vw, 52px)/1.04 "Bricolage Grotesque", sans-serif; margin: 2px 0 0; letter-spacing: -1px; }
 h1 b { color: var(--accent); font-weight: 700; }
 h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.hero-sub { color: var(--ink-2); max-width: 560px; margin: 8px auto 0; font-size: clamp(15px, 1.6vw, 18px); }
+.hero-sub { color: var(--ink-2); max-width: 700px; margin: 4px auto 0; font-size: clamp(15px, 1.6vw, 18px); }
 
-.device-wrap { position: relative; width: min(820px, 100%, max(320px, calc((100svh - 440px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
+.device-wrap { position: relative; width: min(920px, 100%, max(320px, calc((100svh - 330px) * 1.6))); aspect-ratio: 16 / 10; border-radius: var(--radius); }
 .device-wrap:focus-visible { outline-offset: 6px; }
 .device-3d { position: absolute; inset: 0; opacity: 0; transition: opacity .8s ease; touch-action: pan-y; }
 .has-3d .device-3d { opacity: 1; }
@@ -127,7 +127,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .prose p { margin: 0 0 14px; }
 
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 18px; perspective: 1200px; }
-.cards-big { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+.cards-big { grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); }
 .card {
   --a: var(--accent); position: relative; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 22px; display: flex; flex-direction: column; gap: 10px; overflow: hidden;
@@ -218,7 +218,65 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 /* Fuera de la pantalla */
 .hobbies { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 18px; }
 .hobby { position: relative; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 22px 22px; overflow: hidden; }
-.hobby-stat { display: block; font: 800 clamp(40px, 6vw, 64px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1.5px;
+.hobby-stat { display: block; margin: 0; font: 800 clamp(36px, 4.4vw, 52px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1.5px; overflow-wrap: anywhere;
   background: linear-gradient(90deg, #ef5a3c, #f3d23a); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px; }
-.hobby h3 { font: 600 12px "Geist Mono", monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); margin: 0 0 8px; }
+.hobby .hobby-label { font: 600 12px "Geist Mono", monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); margin: 0 0 8px; }
 .hobby p { margin: 0; }
+
+/* Herramientas: la cadena de trabajo */
+.pipeline {
+  --gap: 14px; list-style: none; margin: 0 0 clamp(36px, 5vw, 56px); padding: 0; position: relative;
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--gap); counter-reset: paso;
+}
+/* La línea que une los pasos y el pulso que la recorre */
+.pipeline::before, .pipeline::after { content: ""; position: absolute; left: 4%; right: 4%; top: 31px; height: 2px; border-radius: 2px; pointer-events: none; }
+.pipeline::before { background: var(--line); }
+.pipeline::after {
+  background: linear-gradient(90deg, transparent, var(--lcd) 45%, #2fb9a0 55%, transparent) no-repeat;
+  background-size: 22% 100%; background-position: -30% 0; filter: drop-shadow(0 0 6px rgba(156,255,122,.7));
+  animation: pulso 4.5s cubic-bezier(.45,0,.55,1) infinite;
+}
+@keyframes pulso { to { background-position: 130% 0; } }
+.step {
+  position: relative; z-index: 1; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 6px; transition: border-color .25s, translate .25s;
+}
+.step:hover { border-color: color-mix(in srgb, var(--c) 55%, var(--line)); }
+.step-n {
+  width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; margin-bottom: 6px;
+  font: 700 14px "Geist Mono", monospace; color: #1a1a1a; background: var(--c);
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, #000), inset 0 2px 0 rgba(255,255,255,.4);
+}
+.step h3 { font: 700 18px/1.15 "Bricolage Grotesque", sans-serif; margin: 0; }
+.step-who { font: 500 11px "Geist Mono", monospace; letter-spacing: .5px; color: var(--c); }
+.step p { margin: 2px 0 0; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+
+/* Herramientas: la oficina de agentes */
+.office {
+  display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(20px, 3vw, 36px); align-items: center;
+  background: linear-gradient(135deg, color-mix(in srgb, #2fb9a0 10%, var(--bg-2)), var(--bg-2) 60%);
+  border: 1px solid var(--line); border-radius: calc(var(--radius) + 4px); padding: clamp(14px, 2vw, 22px);
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
+.office-shot { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 24px 50px rgba(0,0,0,.45); background: #f3efe9; }
+.office-shot img { width: 100%; height: auto; transition: scale .6s cubic-bezier(.2,.7,.2,1); }
+.office:hover .office-shot img { scale: 1.03; }
+.office-copy { padding: 4px clamp(4px, 1vw, 12px) 4px 0; }
+.office-kicker { display: inline-flex; align-items: center; gap: 8px; font: 600 11px "Geist Mono", monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lcd); margin: 0 0 10px; }
+.office-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lcd); box-shadow: 0 0 0 0 rgba(156,255,122,.6); animation: latido 2s ease-out infinite; }
+@keyframes latido { 70% { box-shadow: 0 0 0 9px rgba(156,255,122,0); } 100% { box-shadow: 0 0 0 0 rgba(156,255,122,0); } }
+.office h3 { font: 700 clamp(24px, 3vw, 32px)/1.1 "Bricolage Grotesque", sans-serif; margin: 0 0 10px; }
+.office-copy > p:not(.office-kicker) { margin: 0; color: var(--ink-2); }
+.office-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 22px; margin: 20px 0 0; }
+.office-stats div { display: flex; flex-direction: column-reverse; }
+.office-stats dd { margin: 0; font: 800 clamp(28px, 3.4vw, 38px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1px; }
+.office-stats dt { font: 500 11px "Geist Mono", monospace; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-2); margin-top: 4px; }
+
+@media (max-width: 900px) {
+  .pipeline { grid-template-columns: 1fr; gap: 10px; }
+  .pipeline::before, .pipeline::after { left: 33px; right: auto; top: 24px; bottom: 24px; width: 2px; height: auto; }
+  .pipeline::after { display: none; }
+  .step { display: grid; grid-template-columns: 34px 1fr; column-gap: 14px; row-gap: 2px; padding: 14px 16px; }
+  .step-n { grid-row: span 3; margin: 0; }
+  .office { grid-template-columns: 1fr; }
+}

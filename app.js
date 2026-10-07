@@ -1,5 +1,5 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007d';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007e';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -65,7 +65,14 @@ function renderSections() {
   for (const box of $$('[data-group]')) box.innerHTML = PROJECTS.filter((p) => p.group === box.dataset.group).map(cardHTML).join('');
   for (const box of $$('[data-body]')) box.innerHTML = (SECTIONS[box.dataset.body][state.lang].body || []).map((p) => `<p class="reveal">${esc(p)}</p>`).join('');
   $('#hobbies').innerHTML = SECTIONS.fuera[state.lang].items.map((h) =>
-    `<article class="hobby reveal"><span class="hobby-stat">${esc(h.stat)}</span><h3>${esc(h.label)}</h3><p>${esc(h.text)}</p></article>`).join('');
+    `<article class="hobby reveal"><h3 class="hobby-stat">${esc(h.stat)}</h3><p class="hobby-label">${esc(h.label)}</p><p>${esc(h.text)}</p></article>`).join('');
+  const tool = SECTIONS.herramientas[state.lang];
+  $('#pipeline').innerHTML = tool.steps.map((s, i) =>
+    `<li class="step reveal" style="--c:${KEYS[i % KEYS.length].color}"><span class="step-n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3>${esc(s.name)}</h3><span class="step-who">${esc(s.who)}</span><p>${esc(s.text)}</p></li>`).join('');
+  $('#office-img').alt = tool.office.alt;
+  $('#office-copy').innerHTML =
+    `<p class="office-kicker">${esc(tool.office.kicker)}</p><h3>${esc(tool.office.title)}</h3><p>${esc(tool.office.text)}</p>
+     <dl class="office-stats">${tool.office.stats.map(([n, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(n)}</dd></div>`).join('')}</dl>`;
   $('#chips').innerHTML = SECTIONS.herramientas[state.lang].chips.map((c) => `<li class="reveal">${esc(c)}</li>`).join('');
   const linkItems = [
     ['GitHub', LINKS.github, true], ['LinkedIn', LINKS.linkedin, true],
@@ -236,7 +243,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) return;
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007d');
+    const mod = await import('./keypad3d.js?v=20261007e');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),

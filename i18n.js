@@ -101,8 +101,21 @@ export const SECTIONS = {
     es: {
       title: 'Herramientas',
       lead: 'No solo le pido cosas a una IA: trabajo con un proceso.',
+      steps: [
+        { name: 'Plan', who: 'Codex', text: 'Antes de escribir código, otra IA critica el diseño y busca lo que se me escapó.' },
+        { name: 'Construir', who: 'Claude Code', text: 'Claude Code escribe el código con las reglas que he ido juntando en cada proyecto.' },
+        { name: 'Revisar', who: 'code-reviewer · Codex', text: 'Dos revisores, por separado, buscan errores, casos raros y huecos de seguridad.' },
+        { name: 'Corregir y probar', who: 'debugger · qa-tester', text: 'Un agente corrige lo que encontraron y otro prueba que todo siga funcionando.' },
+        { name: 'Publicar', who: 'GitHub Pages', text: 'Solo sale cuando la cadena pasa. Si algo falla dos veces, se detiene y me avisa.' },
+      ],
+      office: {
+        kicker: 'La uso todos los días',
+        title: 'Mi oficina de agentes',
+        text: 'Un tablero que construí para ver a mi equipo de agentes trabajar: quién está activo ahora, cuánto se usa cada uno y lo que cada quien ha aprendido en mis proyectos. Corre en mi computadora, sin nada en la nube.',
+        stats: [['10', 'agentes'], ['38', 'skills'], ['210', 'aprendizajes']],
+        alt: 'La oficina de agentes: Dirección arriba y los departamentos de Revisión, Taller, Pruebas y Seguridad con sus agentes.',
+      },
       body: [
-        'Construyo con Claude Code y un equipo de agentes que revisa cada cambio: uno revisa el código, otro prueba que funcione, otro busca fallas de seguridad. Otra IA (Codex) critica el diseño antes de empezar y vuelve a revisar al final.',
         'Uso HTML y JavaScript sin frameworks cuando se puede, Firebase para datos y usuarios, GitHub Pages para publicar, Python para automatizar y procesar datos, y Godot para juegos.',
       ],
       chips: ['Claude Code', 'Agentes de revisión', 'Codex', 'JavaScript', 'Firebase', 'GitHub Pages', 'Python', 'Three.js', 'Godot', 'ffmpeg'],
@@ -110,8 +123,21 @@ export const SECTIONS = {
     en: {
       title: 'Toolkit',
       lead: 'I don\'t just ask an AI for things: I work with a process.',
+      steps: [
+        { name: 'Plan', who: 'Codex', text: 'Before any code, a second AI critiques the design and looks for what I missed.' },
+        { name: 'Build', who: 'Claude Code', text: 'Claude Code writes it, following the rules I\'ve collected project after project.' },
+        { name: 'Review', who: 'code-reviewer · Codex', text: 'Two reviewers, working separately, hunt for bugs, edge cases and security holes.' },
+        { name: 'Fix & test', who: 'debugger · qa-tester', text: 'One agent fixes what they found; another checks that everything still works.' },
+        { name: 'Ship', who: 'GitHub Pages', text: 'It only ships when the chain passes. If something fails twice, it stops and tells me.' },
+      ],
+      office: {
+        kicker: 'I use it every day',
+        title: 'My agents office',
+        text: 'A dashboard I built to watch my team of agents work: who is active right now, how much each one is used and what each has learned across my projects. It runs on my computer, nothing in the cloud.',
+        stats: [['10', 'agents'], ['38', 'skills'], ['210', 'learnings']],
+        alt: 'The agents office: leadership at the top and the Review, Workshop, Testing and Security departments with their agents.',
+      },
       body: [
-        'I build with Claude Code and a team of agents that reviews every change: one reviews the code, one tests that it works, one hunts for security holes. A second AI (Codex) critiques the design before I start and reviews again at the end.',
         'I use plain HTML and JavaScript when possible, Firebase for data and users, GitHub Pages to publish, Python to automate and process data, and Godot for games.',
       ],
       chips: ['Claude Code', 'Review agents', 'Codex', 'JavaScript', 'Firebase', 'GitHub Pages', 'Python', 'Three.js', 'Godot', 'ffmpeg'],
@@ -126,18 +152,18 @@ export const SECTIONS = {
       title: 'Fuera de la pantalla',
       lead: 'Lo que hago cuando no estoy construyendo.',
       items: [
-        { label: 'Básquet', stat: 'Capitán', text: 'Capitán del equipo del Colegio Humboldt de 2023 a 2026 y titular en la Academia Jaguares, en San Pedro Cholula. En Sydney sigo jugando en liga.' },
-        { label: 'Jiu-jitsu brasileño', stat: '4×', text: 'Cuatro campeonatos nacionales. Lo que me enseñó: la técnica le gana a la fuerza, y se entrena aunque no tengas ganas.' },
-        { label: 'Rownies', stat: '2023', text: 'Mi marca de brownies desde 2023: produzco, costeo y vendo. Cada año tengo un puesto en un festival de unas 3,600 personas.' },
+        { stat: 'Básquet', label: 'Capitán del equipo', text: 'Capitán del equipo del Colegio Humboldt de 2023 a 2026 y titular en la Academia Jaguares, en San Pedro Cholula. En Sydney sigo jugando en liga.' },
+        { stat: 'Jiu-jitsu', label: 'Jiu-jitsu brasileño', text: 'Cuatro campeonatos nacionales.' },
+        { stat: 'Rownies', label: 'Mi marca de brownies · desde 2023', text: 'Produzco, costeo y vendo. Cada año pongo un puesto en el Oktoberfest del Colegio Humboldt, con unas 3,600 personas.' },
       ],
     },
     en: {
       title: 'Off-hours',
       lead: 'What I do when I\'m not building.',
       items: [
-        { label: 'Basketball', stat: 'Captain', text: 'Team captain at Colegio Humboldt from 2023 to 2026 and starting player at Academia Jaguares in San Pedro Cholula. I keep playing league in Sydney.' },
-        { label: 'Brazilian Jiu-Jitsu', stat: '4×', text: 'Four national championships. What it taught me: technique beats strength, and you train even when you don\'t feel like it.' },
-        { label: 'Rownies', stat: '2023', text: 'My brownie brand since 2023: I make, cost and sell them. Every year I run a stall at a festival of about 3,600 people.' },
+        { stat: 'Basketball', label: 'Team captain', text: 'Team captain at Colegio Humboldt from 2023 to 2026 and starting player at Academia Jaguares in San Pedro Cholula. I keep playing league in Sydney.' },
+        { stat: 'Jiu-Jitsu', label: 'Brazilian Jiu-Jitsu', text: 'Four national championships.' },
+        { stat: 'Rownies', label: 'My brownie brand · since 2023', text: 'I make, cost and sell them. Every year I run a stall at the Colegio Humboldt Oktoberfest, about 3,600 people.' },
       ],
     },
   },
@@ -159,7 +185,7 @@ export const SECTIONS = {
 // Proyectos. status: prod | done | wip | lab | internal. url solo si es pública y sin datos reales.
 export const PROJECTS = [
   {
-    group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.png', accent: '#7ccf4a',
+    group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.svg', accent: '#7ccf4a',
     name: 'Bravo',
     url: 'https://rl7103405-gif.github.io/control-ganadero/',
     es: { tag: 'Control ganadero', desc: 'App para llevar el rancho de mi abuelo: censo de animales, partos, pesos y rotación de potreros.', used: 'El rancho familiar, todos los días. Ya tiene una versión de demostración para otros ranchos.', built: 'La diseñé y la construí completa, con respaldos y reglas de seguridad probadas.' },
@@ -167,26 +193,12 @@ export const PROJECTS = [
     stack: ['Firebase', 'JavaScript', 'PWA'],
   },
   {
-    group: 'proyectos', status: 'prod', mono: 'MC', logo: 'assets/logos/mi-cartera.svg', accent: '#2fb9a0',
+    group: 'proyectos', status: 'prod', mono: 'MC', logo: 'assets/logos/mi-cartera.svg?v=2', accent: '#2fb9a0',
     name: 'Mi Cartera',
     url: 'https://rl7103405-gif.github.io/mi-cartera-web/',
     es: { tag: 'Finanzas personales', desc: 'App para saber a dónde se va el dinero: cuentas, presupuesto, tarjetas e inversiones, sincronizada entre teléfonos.', used: 'Cinco personas de mi familia, más una cartera compartida de la casa.', built: 'La app, su página de presentación y una cuenta de demostración con datos inventados.' },
     en: { tag: 'Personal finance', desc: 'An app to see where the money goes: accounts, budget, cards and investments, synced across phones.', used: 'Five people in my family, plus a shared household wallet.', built: 'The app, its landing page and a demo account with made-up data.' },
     stack: ['Firebase', 'JavaScript', 'GSAP'],
-  },
-  {
-    group: 'proyectos', status: 'prod', mono: 'RU', accent: '#f39a2b',
-    name: 'RUNA',
-    es: { tag: 'Área de muestras', desc: 'Sistema que digitaliza el área de muestras de la fábrica: asigna trabajos, sigue su avance en tiempo real y exporta reportes.', used: 'El equipo de muestras de Deportivos Quini.', built: 'Diseño, construcción y permisos por rol.' },
-    en: { tag: 'Sampling department', desc: 'A system that digitises the factory\'s sampling department: assigns jobs, tracks progress in real time and exports reports.', used: 'The sampling team at Deportivos Quini.', built: 'Design, build and role-based permissions.' },
-    stack: ['Firebase', 'JavaScript'],
-  },
-  {
-    group: 'proyectos', status: 'prod', mono: 'CM', accent: '#ef5a3c',
-    name: 'Captura Mecánicos',
-    es: { tag: 'Mantenimiento', desc: 'Mantenimiento en tiempo real para la planta de tejido: reportar fallas, atenderlas y cerrarlas, con un tablero de máquinas por colores.', used: 'Los mecánicos y supervisores de la planta.', built: 'El sistema completo, con indicadores y códigos de falla.' },
-    en: { tag: 'Maintenance', desc: 'Real-time maintenance for the knitting plant: report faults, handle and close them, with a colour-coded machine board.', used: 'The plant\'s mechanics and supervisors.', built: 'The whole system, with KPIs and fault codes.' },
-    stack: ['Firebase', 'JavaScript'],
   },
   {
     group: 'proyectos', status: 'done', mono: 'EL', logo: 'assets/logos/entrelineas.svg', accent: '#f08bb4',
@@ -204,6 +216,20 @@ export const PROJECTS = [
     stack: ['HTML', 'CSS', 'JavaScript'],
   },
   // Fábrica (internas)
+  {
+    group: 'fabrica', status: 'prod', mono: 'RU', accent: '#f39a2b',
+    name: 'RUNA',
+    es: { tag: 'Área de muestras', desc: 'Sistema que digitaliza el área de muestras de la fábrica: asigna trabajos, sigue su avance en tiempo real y exporta reportes.', used: 'El equipo de muestras de Deportivos Quini.', built: 'Diseño, construcción y permisos por rol.' },
+    en: { tag: 'Sampling department', desc: 'A system that digitises the factory\'s sampling department: assigns jobs, tracks progress in real time and exports reports.', used: 'The sampling team at Deportivos Quini.', built: 'Design, build and role-based permissions.' },
+    stack: ['Firebase', 'JavaScript'],
+  },
+  {
+    group: 'fabrica', status: 'prod', mono: 'CM', accent: '#ef5a3c',
+    name: 'Captura Mecánicos',
+    es: { tag: 'Mantenimiento', desc: 'Mantenimiento en tiempo real para la planta de tejido: reportar fallas, atenderlas y cerrarlas, con un tablero de máquinas por colores.', used: 'Los mecánicos y supervisores de la planta.', built: 'El sistema completo, con indicadores y códigos de falla.' },
+    en: { tag: 'Maintenance', desc: 'Real-time maintenance for the knitting plant: report faults, handle and close them, with a colour-coded machine board.', used: 'The plant\'s mechanics and supervisors.', built: 'The whole system, with KPIs and fault codes.' },
+    stack: ['Firebase', 'JavaScript'],
+  },
   { group: 'fabrica', status: 'internal', mono: 'RG', accent: '#7ccf4a', name: 'RAGNAR',
     es: { tag: 'Embarques e inventario', desc: 'Control de la maquila externa: qué salió, qué regresó y qué falta, con un portal para los talleres maquileros.' },
     en: { tag: 'Shipping & inventory', desc: 'Control of external contract manufacturing: what left, what came back and what is missing, with a portal for contractors.' } },
@@ -217,9 +243,6 @@ export const PROJECTS = [
   { group: 'laboratorio', status: 'lab', mono: 'ER', accent: '#ef5a3c', name: 'Escala Real',
     es: { tag: 'Fábrica de videos', desc: 'Una fábrica local y gratuita de YouTube Shorts: de un guion en texto sale un video vertical con voz, imágenes y subtítulos.' },
     en: { tag: 'Video factory', desc: 'A free, local YouTube Shorts factory: a text script becomes a vertical video with voice, images and subtitles.' } },
-  { group: 'laboratorio', status: 'lab', mono: 'OA', accent: '#2fb9a0', name: 'Oficina de agentes',
-    es: { tag: 'Tablero 3D', desc: 'Una oficina en 3D donde veo a mis agentes de IA: quién existe, quién trabaja ahora y cuánto se usa cada uno.' },
-    en: { tag: '3D dashboard', desc: 'A 3D office where I see my AI agents: who exists, who is working now and how much each one is used.' } },
   { group: 'laboratorio', status: 'lab', mono: 'BJ', accent: '#f3d23a', name: 'Blackjack Trainer', url: 'blackjack/', play: true,
     es: { tag: 'Entrenador', desc: 'Juego para entrenar el conteo de cartas Hi-Lo paso a paso: estrategia básica, conteo y apuestas.' },
     en: { tag: 'Trainer', desc: 'A game to practise Hi-Lo card counting step by step: basic strategy, counting and betting.' } },

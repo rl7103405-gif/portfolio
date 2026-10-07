@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;700&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261007d">
+<link rel="stylesheet" href="styles.css?v=20261007e">
 <script type="importmap">
 {
   "imports": {
@@ -73,7 +73,16 @@
     </div>
   </section>
   <section class="sec sec-short" id="cv" data-key="R"><div class="sec-head"></div><a class="btn" id="cv-link" href="assets/CV-Roberto-Linares-EN.pdf" download data-i18n="cvBtn">Descargar CV</a></section>
-  <section class="sec" id="herramientas" data-key="T"><div class="sec-head"></div><div class="prose" data-body="herramientas"></div><ul class="chips" id="chips"></ul></section>
+  <section class="sec" id="herramientas" data-key="T">
+    <div class="sec-head"></div>
+    <ol class="pipeline" id="pipeline" role="list"></ol>
+    <div class="office reveal" id="office">
+      <div class="office-shot"><img src="assets/oficina-agentes.webp" alt="The agents office: leadership at the top and the Review, Workshop, Testing and Security departments with their agents." width="1400" height="869" loading="lazy" id="office-img"></div>
+      <div class="office-copy" id="office-copy"></div>
+    </div>
+    <div class="prose" data-body="herramientas"></div>
+    <ul class="chips" id="chips"></ul>
+  </section>
   <section class="sec" id="fabrica" data-key="F"><div class="sec-head"></div><div class="cards" data-group="fabrica"></div></section>
   <section class="sec" id="fuera" data-key="O"><div class="sec-head"></div><div class="hobbies" id="hobbies"></div></section>
   <section class="sec" id="laboratorio" data-key="L"><div class="sec-head"></div><div class="cards" data-group="laboratorio"></div></section>
@@ -91,6 +100,6 @@
 
 <footer class="foot"><p data-i18n="footer"></p></footer>
 
-<script type="module" src="app.js?v=20261007d"></script>
+<script type="module" src="app.js?v=20261007e"></script>
 </body>
 </html>
