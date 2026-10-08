@@ -1,8 +1,10 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007k';
-import { AGENTES, DEPTOS } from './agentes.js?v=20261007k';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007l';
+import { AGENTES, DEPTOS } from './agentes.js?v=20261007l';
 
 const STORE = 'rl-portafolio';
+// El video de la oficina 3D se muestra solo cuando esté grabado con la oficina real de Beto (sus personajes y muebles).
+const VIDEO_3D = false;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
@@ -69,7 +71,7 @@ function pintarAgente() {
 }
 $('#team-grid').addEventListener('click', (e) => {
   const b = e.target.closest('[data-ag]'); if (!b) return;
-  agenteSel = Number(b.dataset.ag); click(true);
+  agenteSel = Number(b.dataset.ag); // sin sonido: el clic de tecla es solo del teclado
   $$('#team-grid .agent').forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
   pintarAgente();
 });
@@ -132,12 +134,12 @@ function renderSections() {
   $('#office-copy').innerHTML =
     `<p class="office-kicker">${esc(tool.office.kicker)}</p><h3>${esc(tool.office.title)}</h3><p>${esc(tool.office.text)}</p>
      <dl class="office-stats">${tool.office.stats.map(([n, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(n)}</dd></div>`).join('')}</dl>
-     <p class="office-source">${esc(tool.office.source)}</p>
+     <p class="office-source">${esc(tool.office.source)}</p>${VIDEO_3D ? `
      <button type="button" class="demo-thumb office-3d" data-base="assets/demos/oficina-3d" data-v="1" data-ancho="1" data-title="${esc(tool.office.title + ' · 3D')}">
        <img src="assets/demos/oficina-3d-${state.lang}.webp?v=1" alt="" loading="lazy" width="1440" height="900">
        <span class="demo-play" aria-hidden="true"></span>
        <span class="demo-meta"><b>${esc(tool.office.watch3d)}</b><span>${esc(tool.office.watch3dSub)}</span></span>
-     </button>`;
+     </button>` : ''}`;
   $('#chips').innerHTML = SECTIONS.herramientas[state.lang].chips.map((c) => `<li class="reveal">${esc(c)}</li>`).join('');
   const linkItems = [
     ['GitHub', LINKS.github, true], ['LinkedIn', LINKS.linkedin, true],
@@ -312,7 +314,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007k');
+    const mod = await import('./keypad3d.js?v=20261007l');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
