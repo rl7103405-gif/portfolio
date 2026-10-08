@@ -371,3 +371,7 @@ body:has(.lightbox[open]) { overflow: hidden; }
   .cards-big .card.has-demo > .demo-thumb img { position: absolute; inset: 0; }
   .cards-big .card.has-demo > .demo-thumb .demo-play { top: 45%; }
 }
+
+/* Video de compu: horizontal, casi a pantalla completa */
+.lightbox-video.es-ancho { max-width: min(94vw, calc(88svh * 1.6), 1440px); }
+.lightbox-video.es-ancho video { max-height: 88svh; }

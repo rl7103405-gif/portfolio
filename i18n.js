@@ -232,7 +232,8 @@ export const PROJECTS = [
     group: 'proyectos', status: 'prod', mono: 'BR', logo: 'assets/logos/bravo.svg?v=3', accent: '#7ccf4a',
     name: 'Bravo',
     url: 'https://rl7103405-gif.github.io/control-ganadero/',
-    video: { src: 'assets/demos/bravo.mp4?v=1', poster: 'assets/demos/bravo-poster.webp?v=1', len: '0:25', w: 540, h: 1080,
+    // Cuatro versiones: <base>-<movil|compu>-<es|en>.mp4 (+ .webp de miniatura). La página elige por pantalla e idioma.
+    video: { base: 'assets/demos/bravo', v: 2, len: '0:25',
       es: 'La ficha de una vaca: pesos, salud e indicadores del rancho', en: 'A cow\'s record: weights, health and ranch KPIs' },
     es: { tag: 'Control ganadero', desc: 'App para llevar el rancho de mi abuelo: censo de animales, partos, pesos y rotación de potreros.', used: 'El rancho familiar, todos los días. Ya tiene una versión de demostración para otros ranchos.', built: 'La diseñé y la construí completa con ayuda de IA, con respaldos y reglas de seguridad revisadas.' },
     en: { tag: 'Livestock management', desc: 'An app to run my grandfather\'s ranch: herd census, births, weights and pasture rotation.', used: 'The family ranch, every day. A demo version for other ranches already exists.', built: 'I designed and built it end to end with AI assistance, with backups and reviewed security rules.' },
@@ -279,10 +280,10 @@ export const PROJECTS = [
   { group: 'fabrica', status: 'prod', mono: 'RG', accent: '#7ccf4a', name: 'RAGNAR',
     es: { tag: 'Embarques e inventario', desc: 'Control de la maquila externa: qué salió, qué regresó y qué falta, con un portal para los talleres maquileros.', impact: '329 remisiones con 3,795 folios a las maquilas al 31 de agosto.' },
     en: { tag: 'Shipping & inventory', desc: 'Control of external contract manufacturing: what left, what came back and what is missing, with a portal for contractors.', impact: '329 dispatch notes carrying 3,795 folios to workshops by 31 August.' } },
-  { group: 'fabrica', status: 'internal', mono: 'GR', accent: '#2fb9a0', name: 'Extractor de gramajes',
+  { group: 'en-proceso', status: 'wip', mono: 'GR', accent: '#2fb9a0', name: 'Extractor de gramajes',
     es: { tag: 'Fichas técnicas', desc: 'Lee las fichas técnicas de los productos y saca los gramajes de cada hilo, que antes se copiaban a mano.' },
     en: { tag: 'Tech sheets', desc: 'Reads product tech sheets and extracts the yarn weights that used to be copied by hand.' } },
-  { group: 'fabrica', status: 'wip', mono: 'GC', accent: '#f39a2b', name: 'Gestión comercial',
+  { group: 'en-proceso', status: 'wip', mono: 'GC', accent: '#f39a2b', name: 'Gestión comercial',
     es: { tag: 'Arquitectura', desc: 'Arquitectura diseñada para concentrar la información comercial que hoy vive dispersa entre departamentos. La implementación está pendiente.' },
     en: { tag: 'Architecture', desc: 'An architecture designed to bring together commercial information currently scattered across departments. Implementation is pending.' } },
   // Laboratorio

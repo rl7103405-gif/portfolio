@@ -1,5 +1,5 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007i';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007j';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -70,8 +70,8 @@ function cardHTML(p) {
     ? `<a class="go" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.play ? ui.play : ui.open)} ↗</a>`
     : (p.group === 'proyectos' ? `<span class="private">${esc(ui.private)}</span>` : '');
   const v = p.video;
-  const demo = v ? `<button type="button" class="demo-thumb" data-video="${esc(v.src)}" data-poster="${esc(v.poster)}" data-w="${v.w}" data-h="${v.h}" data-title="${esc((t.name || p.name) + ' · ' + v[state.lang])}">
-      <img src="${esc(v.poster)}" alt="" loading="lazy" width="${v.w}" height="${v.h}">
+  const demo = v ? `<button type="button" class="demo-thumb" data-base="${esc(v.base)}" data-v="${esc(v.v)}" data-title="${esc((t.name || p.name) + ' · ' + v[state.lang])}">
+      <img src="${esc(`${v.base}-movil-${state.lang}.webp?v=${v.v}`)}" alt="" loading="lazy" width="540" height="1080">
       <span class="demo-play" aria-hidden="true"></span>
       <span class="demo-meta"><b>${esc(ui.demo)} · ${esc(t.name || p.name)} · ${esc(v.len)}</b><span>${esc(v[state.lang])}</span><i>${esc(ui.demoData)}</i></span>
     </button>` : '';
@@ -281,7 +281,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007i');
+    const mod = await import('./keypad3d.js?v=20261007j');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
@@ -334,9 +334,14 @@ function cerrarDemo() { $('#demo-error').hidden = true; demoVid.pause(); demoVid
 demoVid.addEventListener('error', () => { if (demoVid.getAttribute('src')) { $('#demo-error').textContent = UI[state.lang].demoError; $('#demo-error').hidden = false; } });
 document.addEventListener('click', (e) => {
   const t = e.target.closest('.demo-thumb'); if (!t) return;
-  if (!demoDlg.showModal) { window.open(t.dataset.video, '_blank', 'noopener'); return; }
-  demoVid.poster = t.dataset.poster; demoVid.width = Number(t.dataset.w); demoVid.height = Number(t.dataset.h);
-  demoVid.src = t.dataset.video; demoDlg.setAttribute('aria-label', t.dataset.title);
+  // En pantalla ancha se ve la grabación de compu; en celular, la vertical. Siempre en el idioma de la página.
+  const ancho = matchMedia('(min-width: 900px) and (orientation: landscape)').matches;
+  const archivo = `${t.dataset.base}-${ancho ? 'compu' : 'movil'}-${state.lang}`;
+  const src = `${archivo}.mp4?v=${t.dataset.v}`;
+  if (!demoDlg.showModal) { window.open(src, '_blank', 'noopener'); return; }
+  demoDlg.classList.toggle('es-ancho', ancho);
+  demoVid.poster = `${archivo}.webp?v=${t.dataset.v}`; demoVid.width = ancho ? 1440 : 540; demoVid.height = ancho ? 900 : 1080;
+  demoVid.src = src; demoDlg.setAttribute('aria-label', t.dataset.title);
   demoDlg.showModal(); demoVid.play().catch(() => {});
 });
 if (demoDlg.showModal) {
