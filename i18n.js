@@ -317,5 +317,5 @@ export const LINKS = {
   github: 'https://github.com/rl7103405-gif',
   linkedin: 'https://www.linkedin.com/in/roberto-linares-alvarez-0a1791420',
   email: 'rl7103405@gmail.com',
-  cv: 'assets/CV-Roberto-Linares-EN.pdf?v=4',
+  cv: 'assets/CV-Roberto-Linares-EN.pdf?v=5',
 };
