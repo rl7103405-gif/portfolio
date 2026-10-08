@@ -1,6 +1,6 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007l';
-import { AGENTES, DEPTOS } from './agentes.js?v=20261007l';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007m';
+import { AGENTES, DEPTOS } from './agentes.js?v=20261007m';
 
 const STORE = 'rl-portafolio';
 // El video de la oficina 3D se muestra solo cuando esté grabado con la oficina real de Beto (sus personajes y muebles).
@@ -314,7 +314,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007l');
+    const mod = await import('./keypad3d.js?v=20261007m');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),

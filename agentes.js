@@ -1,6 +1,6 @@
 // Generado por herramientas/generar-agentes.py desde la oficina de agentes (7 oct 2026).
 // Los SVG son los personajes de la oficina; las cifras son su registro de uso a esa fecha.
-export const DEPTOS = {"direccion": ["Dirección", "Leadership"], "revision": ["Revisión", "Review"], "taller": ["Taller", "Workshop"], "pruebas": ["Pruebas", "Testing"], "seguridad": ["Seguridad", "Security"], "investigacion": ["Investigación", "Research"], "consultoria": ["Consultoría externa", "Outside advice"]};
+export const DEPTOS = {"direccion": ["Dirección", "Leadership"], "revision": ["Revisión", "Review"], "taller": ["Taller", "Workshop"], "pruebas": ["Pruebas", "Testing"], "seguridad": ["Seguridad", "Security"], "investigacion": ["Investigación", "Research"], "consultoria": ["Consultoría externa", "External advisors"]};
 export const AGENTES = [
  {
   "nombre": "Beto",
@@ -55,7 +55,7 @@ export const AGENTES = [
   },
   "en": {
    "rol": "Explorer",
-   "que": "Before anything changes, walks the code and maps how the data really flows.",
+   "que": "Before anything is changed, it walks through the code and maps how the data actually flows.",
    "nivel": "Frequent"
   }
  },
@@ -74,7 +74,7 @@ export const AGENTES = [
   },
   "en": {
    "rol": "Code reviewer",
-   "que": "Reviews every change without touching it: bad practices, unhandled errors, exposed data and Firebase rules.",
+   "que": "Reviews every change without editing it, checking for bad practices, unhandled errors, exposed data and Firebase rules.",
    "nivel": "Very frequent"
   }
  },
@@ -93,7 +93,7 @@ export const AGENTES = [
   },
   "en": {
    "rol": "Debugger",
-   "que": "Finds the root cause of a failure and applies the smallest fix. The only specialist allowed to edit code.",
+   "que": "Finds the root cause of a failure and applies the smallest possible fix. It's the only specialist allowed to edit code.",
    "nivel": "Very frequent"
   }
  },
@@ -131,7 +131,7 @@ export const AGENTES = [
   },
   "en": {
    "rol": "File tester",
-   "que": "Tests reading Excel, CSV and XML files, including broken ones.",
+   "que": "Tests how Excel, CSV and XML files are read, including broken ones.",
    "nivel": "Occasional"
   }
  },
@@ -169,7 +169,7 @@ export const AGENTES = [
   },
   "en": {
    "rol": "Real user",
-   "que": "Uses the app as one specific person would, on demo accounts, and reports what was hard.",
+   "que": "Uses the app the way one specific person would, on demo accounts, and reports what they struggled with.",
    "nivel": "Regular"
   }
  },
@@ -245,7 +245,7 @@ export const AGENTES = [
   },
   "en": {
    "rol": "Fresh eyes",
-   "que": "A second AI: critiques the design before coding and hunts for bugs at the end. Advice only.",
+   "que": "A second AI that critiques the design before coding and hunts for bugs at the end. It advises; it never edits.",
    "nivel": "Very frequent"
   }
  }
