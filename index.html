@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500;700&family=VT323&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261007j">
+<link rel="stylesheet" href="styles.css?v=20261007k">
 <script type="importmap">
 {
   "imports": {
@@ -90,7 +90,7 @@
     <div class="sec-head"></div>
     <ol class="pipeline" id="pipeline" role="list"></ol>
     <div class="office reveal" id="office">
-      <button type="button" class="office-shot" id="office-open"><img src="assets/oficina-agentes-oscuro.webp" alt="The agents office: leadership at the top and the Review, Workshop, Testing and Security departments with their agents." width="2160" height="1340" loading="lazy" id="office-img"><span class="zoom-hint" aria-hidden="true">⤢</span><span class="sr-only" data-i18n="zoom">View larger</span></button>
+      <div class="team" id="team"><p class="team-hint" data-i18n="teamHint">Tap anyone to see what they do.</p><div class="team-grid" id="team-grid"></div><div class="agent-card" id="agent-card" aria-live="polite"></div></div>
       <div class="office-copy" id="office-copy"></div>
     </div>
     <div class="prose" data-body="herramientas"></div>
@@ -109,10 +109,6 @@
   </section>
 </main>
 
-<dialog class="lightbox" id="office-dlg" data-i18n-aria="zoom" aria-label="View larger">
-  <button type="button" class="lightbox-close" id="office-close" data-i18n-aria="close" aria-label="Close">✕</button>
-  <img src="assets/oficina-agentes-oscuro.webp" alt="" width="2160" height="1340" id="office-big">
-</dialog>
 <dialog class="lightbox lightbox-video" id="demo-dlg" aria-label="Demo">
   <button type="button" class="lightbox-close" id="demo-close" data-i18n-aria="close" aria-label="Close">✕</button>
   <video id="demo-video" controls playsinline muted preload="none"></video>
@@ -123,6 +119,6 @@
 
 <footer class="foot"><p data-i18n="footer"></p></footer>
 
-<script type="module" src="app.js?v=20261007j"></script>
+<script type="module" src="app.js?v=20261007k"></script>
 </body>
 </html>

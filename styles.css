@@ -262,9 +262,6 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
   border: 1px solid var(--line); border-radius: calc(var(--radius) + 4px); padding: clamp(14px, 2vw, 22px);
   margin-bottom: clamp(36px, 5vw, 56px);
 }
-.office-shot { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 24px 50px rgba(0,0,0,.45); background: #f3efe9; }
-.office-shot img { width: 100%; height: auto; transition: scale .6s cubic-bezier(.2,.7,.2,1); }
-.office:hover .office-shot img { scale: 1.03; }
 .office-copy { padding: 4px clamp(4px, 1vw, 12px) 4px 0; }
 .office-kicker { display: inline-flex; align-items: center; gap: 8px; font: 600 11px "Geist Mono", monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lcd); margin: 0 0 10px; }
 .office-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lcd); box-shadow: 0 0 0 0 rgba(156,255,122,.6); animation: latido 2s ease-out infinite; }
@@ -290,14 +287,6 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .prose-tight p { color: var(--ink-2); }
 .prose-tight p:first-child { color: var(--ink); }
 
-/* Oficina: la captura es un botón que abre la vista grande */
-button.office-shot { position: relative; display: block; width: 100%; padding: 0; cursor: zoom-in; background: #161a22; color: inherit; font: inherit; }
-.zoom-hint {
-  position: absolute; right: 12px; bottom: 12px; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
-  font-size: 18px; color: var(--ink); background: rgba(11,13,16,.75); border: 1px solid var(--line); backdrop-filter: blur(6px);
-  opacity: .85; transition: opacity .2s, transform .2s;
-}
-button.office-shot:hover .zoom-hint { opacity: 1; transform: scale(1.06); }
 .lightbox { padding: 0; border: 1px solid var(--line); border-radius: var(--radius); background: #161a22; max-width: min(1400px, 94vw); max-height: 92svh; overflow: auto; }
 .lightbox:not([open]) { display: none; }
 body:has(.lightbox[open]) { overflow: hidden; }
@@ -375,3 +364,39 @@ body:has(.lightbox[open]) { overflow: hidden; }
 /* Video de compu: horizontal, casi a pantalla completa */
 .lightbox-video.es-ancho { max-width: min(94vw, calc(88svh * 1.6), 1440px); }
 .lightbox-video.es-ancho video { max-height: 88svh; }
+
+/* La oficina interactiva */
+.team { display: grid; gap: 14px; align-content: start; }
+.team-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.team-dept { flex: 1 1 auto; background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 14px; padding: 8px 10px 10px; }
+.team-dept > p { margin: 0 0 4px; font: 600 10px "Geist Mono", monospace; letter-spacing: 1.2px; text-transform: uppercase; color: var(--ink-2); }
+.team-dept > div { display: flex; flex-wrap: wrap; gap: 4px; }
+.agent {
+  display: grid; justify-items: center; gap: 2px; width: 74px; padding: 6px 2px 6px; border: 1px solid transparent; border-radius: 12px;
+  background: none; color: var(--ink); cursor: pointer; font: inherit; transition: background .2s, border-color .2s, translate .2s;
+}
+.agent:hover { background: rgba(255,255,255,.05); translate: 0 -2px; }
+.agent.on { border-color: color-mix(in srgb, var(--lcd) 60%, transparent); background: color-mix(in srgb, var(--lcd) 10%, transparent); }
+.agent-face { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #1c2230; display: grid; }
+.agent-face svg, .agent-big svg { width: 100%; height: 100%; }
+.agent.on .agent-face { box-shadow: 0 0 0 2px var(--lcd); }
+.agent-name { font: 500 10.5px/1.2 "Geist Mono", monospace; text-align: center; overflow-wrap: normal; color: var(--ink-2); }
+.agent.on .agent-name { color: var(--ink); }
+.agent-card {
+  display: grid; grid-template-columns: 84px 1fr; gap: 16px; align-items: start; padding: 16px; border-radius: var(--radius);
+  background: #0f1319; border: 1px solid var(--line); min-height: 160px;
+}
+.agent-big { width: 84px; height: 84px; border-radius: 18px; overflow: hidden; background: #1c2230; display: grid; }
+.agent-card h4 { margin: 0; font: 700 20px "Bricolage Grotesque", sans-serif; }
+.agent-card p { margin: 4px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+.agent-card .agent-dept { margin: 0 0 2px; font: 600 10px "Geist Mono", monospace; letter-spacing: 1.2px; text-transform: uppercase; color: var(--lcd); }
+.agent-card .agent-role { margin: 0; color: var(--ink); font-weight: 600; }
+.agent-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.agent-chips span { font: 500 11px "Geist Mono", monospace; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); }
+@media (max-width: 480px) { .agent-card { grid-template-columns: 64px 1fr; } .agent-big { width: 64px; height: 64px; } .agent { width: 66px; } }
+.team-hint { margin: 0; font: 500 12px 'Geist Mono', monospace; color: var(--lcd); }
+
+/* Botón con miniatura para ver la oficina en 3D */
+.demo-thumb.office-3d { --a: var(--lcd); margin: 18px 0 0; width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--line); border-radius: 14px; }
+.demo-thumb.office-3d .demo-play { width: 54px; height: 54px; }
+.demo-thumb.office-3d .demo-play::before { left: 21px; top: 16px; border-width: 11px 0 11px 17px; }

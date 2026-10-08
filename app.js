@@ -1,5 +1,6 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007j';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007k';
+import { AGENTES, DEPTOS } from './agentes.js?v=20261007k';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -47,6 +48,31 @@ function contarCifras(fmt) {
   }, { threshold: 0.6 });
   $$('#fab-stats dd').forEach((dd) => ioCifras.observe(dd));
 }
+
+// ---------- la oficina interactiva: cada agente se puede tocar ----------
+let agenteSel = 1; // empieza en Claude
+function renderEquipo() {
+  const grupos = Object.keys(DEPTOS).map((d) => ({ d, ags: AGENTES.map((a, i) => ({ a, i })).filter(({ a }) => a.depto === d) })).filter((g) => g.ags.length);
+  $('#team-grid').innerHTML = grupos.map(({ d, ags }) =>
+    `<div class="team-dept dept-${d}"><p>${esc(DEPTOS[d][state.lang === 'es' ? 0 : 1])}</p><div>${ags.map(({ a, i }) =>
+      `<button type="button" class="agent${i === agenteSel ? ' on' : ''}" data-ag="${i}" aria-pressed="${i === agenteSel}"><span class="agent-face">${a.svg}</span><span class="agent-name">${esc(a.nombre)}</span></button>`).join('')}</div></div>`).join('');
+  pintarAgente();
+}
+function pintarAgente() {
+  const a = AGENTES[agenteSel]; const ui = UI[state.lang]; const t = a[state.lang];
+  const tipo = ui.agentUnits[a.tipo] || a.tipo;
+  const usos = `${a.usos} ${a.usos === 1 ? tipo.replace(/s$/, '') : tipo}`;
+  $('#agent-card').innerHTML = `<span class="agent-big">${a.svg}</span><div>
+    <p class="agent-dept">${esc(DEPTOS[a.depto][state.lang === 'es' ? 0 : 1])}</p><h4>${esc(a.nombre)}</h4><p class="agent-role">${esc(t.rol)}</p>
+    <p>${esc(t.que)}</p>
+    <div class="agent-chips">${a.modelo ? `<span>${esc(ui.agentModel)}: ${esc(a.modelo)}</span>` : ''}<span>${esc(usos)}</span>${a.apr ? `<span>${a.apr} ${esc(ui.agentLessons)}</span>` : ''}${t.nivel && t.nivel !== t.rol ? `<span>${esc(t.nivel)}</span>` : ''}</div></div>`;
+}
+$('#team-grid').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-ag]'); if (!b) return;
+  agenteSel = Number(b.dataset.ag); click(true);
+  $$('#team-grid .agent').forEach((x) => { const on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
+  pintarAgente();
+});
 
 // ---------- render ----------
 function renderLegend() {
@@ -102,11 +128,16 @@ function renderSections() {
   const tool = SECTIONS.herramientas[state.lang];
   $('#pipeline').innerHTML = tool.steps.map((s, i) =>
     `<li class="step reveal" style="--c:${KEYS[i % KEYS.length].color}"><span class="step-n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3>${esc(s.name)}</h3><span class="step-who">${esc(s.who)}</span><p>${esc(s.text)}</p></li>`).join('');
-  $('#office-img').alt = tool.office.alt; $('#office-big').alt = tool.office.alt;
+  renderEquipo();
   $('#office-copy').innerHTML =
     `<p class="office-kicker">${esc(tool.office.kicker)}</p><h3>${esc(tool.office.title)}</h3><p>${esc(tool.office.text)}</p>
      <dl class="office-stats">${tool.office.stats.map(([n, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(n)}</dd></div>`).join('')}</dl>
-     <p class="office-source">${esc(tool.office.source)}</p>`;
+     <p class="office-source">${esc(tool.office.source)}</p>
+     <button type="button" class="demo-thumb office-3d" data-base="assets/demos/oficina-3d" data-v="1" data-ancho="1" data-title="${esc(tool.office.title + ' · 3D')}">
+       <img src="assets/demos/oficina-3d-${state.lang}.webp?v=1" alt="" loading="lazy" width="1440" height="900">
+       <span class="demo-play" aria-hidden="true"></span>
+       <span class="demo-meta"><b>${esc(tool.office.watch3d)}</b><span>${esc(tool.office.watch3dSub)}</span></span>
+     </button>`;
   $('#chips').innerHTML = SECTIONS.herramientas[state.lang].chips.map((c) => `<li class="reveal">${esc(c)}</li>`).join('');
   const linkItems = [
     ['GitHub', LINKS.github, true], ['LinkedIn', LINKS.linkedin, true],
@@ -281,7 +312,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007j');
+    const mod = await import('./keypad3d.js?v=20261007k');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
@@ -320,13 +351,6 @@ if (!navigator.connection?.saveData) {
 }
 
 // ---------- oficina en grande ----------
-const dlg = $('#office-dlg');
-$('#office-open').addEventListener('click', () => { if (dlg.showModal) dlg.showModal(); else window.open($('#office-big').src, '_blank', 'noopener'); });
-if (dlg.showModal) {
-  $('#office-close').addEventListener('click', () => dlg.close());
-  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // clic fuera de la imagen
-}
-
 // ---------- videos demo: el archivo se descarga solo al tocar play ----------
 const demoDlg = $('#demo-dlg'); const demoVid = $('#demo-video');
 function cerrarDemo() { $('#demo-error').hidden = true; demoVid.pause(); demoVid.removeAttribute('src'); demoVid.load(); }
@@ -335,12 +359,14 @@ demoVid.addEventListener('error', () => { if (demoVid.getAttribute('src')) { $('
 document.addEventListener('click', (e) => {
   const t = e.target.closest('.demo-thumb'); if (!t) return;
   // En pantalla ancha se ve la grabación de compu; en celular, la vertical. Siempre en el idioma de la página.
-  const ancho = matchMedia('(min-width: 900px) and (orientation: landscape)').matches;
-  const archivo = `${t.dataset.base}-${ancho ? 'compu' : 'movil'}-${state.lang}`;
+  // data-ancho='1': video que solo existe en horizontal (la oficina 3D)
+  const soloAncho = t.dataset.ancho === '1';
+  const ancho = soloAncho || matchMedia('(min-width: 900px) and (orientation: landscape)').matches;
+  const archivo = soloAncho ? `${t.dataset.base}-${state.lang}` : `${t.dataset.base}-${ancho ? 'compu' : 'movil'}-${state.lang}`;
   const src = `${archivo}.mp4?v=${t.dataset.v}`;
   if (!demoDlg.showModal) { window.open(src, '_blank', 'noopener'); return; }
   demoDlg.classList.toggle('es-ancho', ancho);
-  demoVid.poster = `${archivo}.webp?v=${t.dataset.v}`; demoVid.width = ancho ? 1440 : 540; demoVid.height = ancho ? 900 : 1080;
+  demoVid.poster = `${archivo}.webp?v=${t.dataset.v}`; demoVid.width = ancho ? 1440 : 540; demoVid.height = soloAncho ? 810 : ancho ? 900 : 1080;
   demoVid.src = src; demoDlg.setAttribute('aria-label', t.dataset.title);
   demoDlg.showModal(); demoVid.play().catch(() => {});
 });
