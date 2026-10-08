@@ -204,7 +204,7 @@ export const SECTIONS = {
       title: 'Fuera de la pantalla',
       lead: 'Lo que hago cuando no estoy construyendo.',
       items: [
-        { stat: 'Básquet', label: 'Capitán del equipo', text: 'Capitán del equipo del Colegio Humboldt de 2023 a 2026 y titular en la Academia Jaguares, en San Pedro Cholula.' },
+        { stat: 'Básquet', label: 'Capitán del equipo', text: 'Capitán del equipo del Colegio Humboldt de 2023 a 2026 y titular en la Academia Jaguares, en San Pedro Cholula, desde 2024. En Alemania fui titular en el primer equipo sub-18 del MTV Stuttgart (agosto a diciembre de 2024).' },
         { stat: 'Jiu-jitsu y MMA', label: 'Deportes de combate', text: 'Cuatro títulos nacionales de jiu-jitsu brasileño. También hice MMA, con un récord amateur de 2-0.' },
         { stat: 'Rownies', label: 'Mi marca de brownies · desde 2023', text: 'Produzco, costeo y vendo. Cada año pongo un puesto en el Oktoberfest del Colegio Humboldt, al que en 2025 asistieron 3,617 personas.' },
       ],
@@ -213,7 +213,7 @@ export const SECTIONS = {
       title: 'Off-hours',
       lead: 'What I do when I\'m not building.',
       items: [
-        { stat: 'Basketball', label: 'Team captain', text: 'Captain of the Colegio Humboldt team from 2023 to 2026, and a starter at Academia Jaguares in San Pedro Cholula.' },
+        { stat: 'Basketball', label: 'Team captain', text: 'Captain of the Colegio Humboldt team from 2023 to 2026, and a starter at Academia Jaguares in San Pedro Cholula since 2024. In Germany, I started for MTV Stuttgart\'s U18 first team (August to December 2024).' },
         { stat: 'Jiu-Jitsu & MMA', label: 'Combat sports', text: 'Four-time national Brazilian jiu-jitsu champion. I also did MMA, with a 2–0 amateur record.' },
         { stat: 'Rownies', label: 'My brownie brand · since 2023', text: 'I bake them, price them and sell them. Every year I run a stall at the Colegio Humboldt Oktoberfest, which drew 3,617 visitors in 2025.' },
       ],
@@ -317,5 +317,5 @@ export const LINKS = {
   github: 'https://github.com/rl7103405-gif',
   linkedin: 'https://www.linkedin.com/in/roberto-linares-alvarez-0a1791420',
   email: 'rl7103405@gmail.com',
-  cv: 'assets/CV-Roberto-Linares-EN.pdf?v=6',
+  cv: 'assets/CV-Roberto-Linares-EN.pdf?v=7',
 };

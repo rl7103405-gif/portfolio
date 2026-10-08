@@ -17,19 +17,11 @@ body {
   font: 16px/1.6 "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-/* Fondo: brillos de color fijos, rejilla de puntos que se desvanece y grano de película */
+/* Fondo (B5, elegido en la encuesta): liso cálido con grano de película; deja que el teclado brille */
 body::before, body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-body::before {
-  background:
-    radial-gradient(700px 420px at 15% 8%, rgba(239,90,60,.16), transparent 70%),
-    radial-gradient(640px 420px at 88% 18%, rgba(47,185,160,.14), transparent 70%),
-    radial-gradient(900px 520px at 50% 105%, rgba(243,210,58,.08), transparent 70%),
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,.09) 1px, transparent 1.4px) 0 0 / 26px 26px;
-  -webkit-mask-image: linear-gradient(#000 0%, #000 55%, rgba(0,0,0,.35) 100%);
-  mask-image: linear-gradient(#000 0%, #000 55%, rgba(0,0,0,.35) 100%);
-}
+body::before { background: linear-gradient(160deg, #1a1410 0%, #0b0d10 55%, #0d1412 100%); }
 body::after {
-  opacity: .07; mix-blend-mode: overlay;
+  opacity: .12; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 img { max-width: 100%; display: block; }
@@ -45,7 +37,7 @@ a { color: inherit; }
   padding: calc(14px + env(safe-area-inset-top, 0px)) clamp(16px, 4vw, 40px) 14px;
   background: linear-gradient(var(--bg) 40%, transparent);
 }
-.brand { font: 700 20px "Bricolage Grotesque", sans-serif; text-decoration: none; letter-spacing: 1px; }
+.brand { font: 700 18px "Unbounded", sans-serif; text-decoration: none; letter-spacing: 1px; }
 .brand span { color: var(--accent); }
 .top-actions { display: flex; align-items: center; gap: 8px; }
 .pill {
@@ -62,7 +54,7 @@ a { color: inherit; }
   padding: 68px clamp(16px, 4vw, 40px) 24px; text-align: center;
 }
 .kicker { font: 500 13px "Geist Mono", monospace; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-2); margin: 0; }
-h1 { font: 700 clamp(26px, 4.4vw, 52px)/1.04 "Bricolage Grotesque", sans-serif; margin: 2px 0 0; letter-spacing: -1px; }
+h1 { font: 700 clamp(22px, 3.7vw, 44px)/1.12 "Unbounded", sans-serif; margin: 2px 0 0; letter-spacing: -0.025em; }
 h1 b { color: var(--accent); font-weight: 700; }
 h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-sub { color: var(--ink-2); max-width: 700px; margin: 4px auto 0; font-size: clamp(15px, 1.6vw, 18px); }
@@ -93,7 +85,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .keys { display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); gap: 5% 3%; min-height: 0; padding-bottom: 2%; }
 .key {
   --c: #999; position: relative; min-height: 0; border: 0; border-radius: 14%; cursor: pointer;
-  font: 700 clamp(16px, 3.4vw, 34px) "Bricolage Grotesque", sans-serif; color: #1a1a1a;
+  font: 700 clamp(14px, 3vw, 30px) "Unbounded", sans-serif; color: #1a1a1a;
   background: linear-gradient(180deg, color-mix(in srgb, var(--c) 92%, #fff) 0%, var(--c) 60%);
   box-shadow: 0 7px 0 color-mix(in srgb, var(--c) 55%, #000), 0 12px 18px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.45);
   transform: translateY(0); transition: transform .08s ease, box-shadow .08s ease;
@@ -112,7 +104,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
   border: 1px solid var(--line); background: var(--bg-2); border-radius: 999px; padding: 6px 12px 6px 6px; transition: color .2s, border-color .2s, transform .2s;
 }
 .legend a:hover, .legend a.active { color: var(--ink); border-color: #3a404b; transform: translateY(-2px); }
-.legend b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; color: #1a1a1a; font: 700 14px "Bricolage Grotesque", sans-serif; }
+.legend b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; color: #1a1a1a; font: 700 12px "Unbounded", sans-serif; }
 .hint { color: var(--ink-2); font-size: 13px; margin: 0; }
 
 /* Secciones */
@@ -121,10 +113,10 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .sec-head { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: center; margin-bottom: 32px; }
 .sec-key {
   grid-row: span 2; width: 64px; height: 64px; border-radius: 14px; display: grid; place-items: center;
-  font: 700 30px "Bricolage Grotesque", sans-serif; color: #1a1a1a;
+  font: 700 26px "Unbounded", sans-serif; color: #1a1a1a;
   box-shadow: 0 6px 0 rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.4);
 }
-.sec h2 { font: 700 clamp(28px, 4vw, 44px)/1.05 "Bricolage Grotesque", sans-serif; margin: 0; letter-spacing: -.5px; }
+.sec h2 { font: 700 clamp(24px, 3.3vw, 38px)/1.1 "Unbounded", sans-serif; margin: 0; letter-spacing: -.8px; }
 .sec h2:focus { outline: none; }
 .sec .lead { color: var(--ink-2); margin: 0; max-width: 640px; }
 .prose { max-width: 720px; font-size: 17px; }
@@ -149,7 +141,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .card-icon { flex: none; }
 .card-name { display: grid; gap: 2px; }
 .card-icon { width: 46px; height: 46px; border-radius: 10px; display: grid; place-items: center; font: 700 15px "Geist Mono", monospace; letter-spacing: .5px; color: var(--a); border: 1px solid color-mix(in srgb, var(--a) 45%, transparent); background: color-mix(in srgb, var(--a) 18%, var(--bg)); }
-.card h3 { font: 700 21px "Bricolage Grotesque", sans-serif; margin: 0; }
+.card h3 { font: 700 18px "Unbounded", sans-serif; margin: 0; }
 .card .tag { color: var(--ink-2); font-size: 13px; }
 .badge { font: 600 11px "Geist Mono", monospace; letter-spacing: .5px; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
 .badge.prod, .badge.done { color: #9cff7a; border-color: #2c4a23; }
@@ -179,7 +171,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .btn:active, .links a:active { transform: translateY(4px); box-shadow: 0 2px 0 #8f8c84; }
 .links { display: flex; flex-wrap: wrap; gap: 14px; }
 .links a.ghost { background: var(--bg-2); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 6px 0 #000; }
-.contact-big { font: 700 clamp(40px, 8vw, 96px)/1 "Bricolage Grotesque", sans-serif; margin: 0 0 8px; letter-spacing: -2px; }
+.contact-big { font: 700 clamp(32px, 6.4vw, 78px)/1.05 "Unbounded", sans-serif; margin: 0 0 8px; letter-spacing: -0.03em; }
 .sec-contact p { color: var(--ink-2); margin: 0 0 26px; }
 
 .foot { text-align: center; color: var(--ink-2); font-size: 13px; padding: 40px 16px calc(40px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
@@ -222,7 +214,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 /* Fuera de la pantalla */
 .hobbies { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 18px; }
 .hobby { position: relative; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 22px 22px; overflow: hidden; }
-.hobby-stat { display: block; margin: 0; font: 800 clamp(36px, 4.4vw, 52px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1.5px; overflow-wrap: anywhere;
+.hobby-stat { display: block; margin: 0; font: 800 clamp(26px, 3.2vw, 38px)/1.08 "Unbounded", sans-serif; letter-spacing: -0.03em; overflow-wrap: anywhere;
   background: linear-gradient(90deg, #ef5a3c, #f3d23a); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 10px; }
 .hobby .hobby-label { font: 600 12px "Geist Mono", monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-2); margin: 0 0 8px; }
 .hobby p { margin: 0; }
@@ -251,7 +243,7 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
   font: 700 14px "Geist Mono", monospace; color: #1a1a1a; background: var(--c);
   box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, #000), inset 0 2px 0 rgba(255,255,255,.4);
 }
-.step h3 { font: 700 18px/1.15 "Bricolage Grotesque", sans-serif; margin: 0; }
+.step h3 { font: 700 15px/1.2 "Unbounded", sans-serif; margin: 0; }
 .step-who { font: 500 11px "Geist Mono", monospace; letter-spacing: .5px; color: var(--c); }
 .step p { margin: 2px 0 0; font-size: 14px; color: var(--ink-2); line-height: 1.5; }
 
@@ -266,11 +258,11 @@ h1 em { font-style: normal; background: linear-gradient(90deg, #9cff7a, #2fb9a0)
 .office-kicker { display: inline-flex; align-items: center; gap: 8px; font: 600 11px "Geist Mono", monospace; letter-spacing: 1.5px; text-transform: uppercase; color: var(--lcd); margin: 0 0 10px; }
 .office-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lcd); box-shadow: 0 0 0 0 rgba(156,255,122,.6); animation: latido 2s ease-out infinite; }
 @keyframes latido { 70% { box-shadow: 0 0 0 9px rgba(156,255,122,0); } 100% { box-shadow: 0 0 0 0 rgba(156,255,122,0); } }
-.office h3 { font: 700 clamp(24px, 3vw, 32px)/1.1 "Bricolage Grotesque", sans-serif; margin: 0 0 10px; }
+.office h3 { font: 700 clamp(20px, 2.5vw, 27px)/1.15 "Unbounded", sans-serif; margin: 0 0 10px; }
 .office-copy > p:not(.office-kicker) { margin: 0; color: var(--ink-2); }
 .office-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 22px; margin: 20px 0 0; }
 .office-stats div { display: flex; flex-direction: column-reverse; }
-.office-stats dd { margin: 0; font: 800 clamp(28px, 3.4vw, 38px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1px; }
+.office-stats dd { margin: 0; font: 800 clamp(24px, 2.9vw, 32px)/1 "Unbounded", sans-serif; letter-spacing: -1px; }
 .office-stats dt { font: 500 11px "Geist Mono", monospace; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-2); margin-top: 4px; }
 
 @media (max-width: 900px) {
@@ -331,7 +323,7 @@ body:has(.lightbox[open]) { overflow: hidden; }
   background: linear-gradient(160deg, color-mix(in srgb, #7ccf4a 12%, var(--bg-2)), var(--bg-2) 70%);
   border: 1px solid var(--line); border-radius: var(--radius);
 }
-.impact-band dd { margin: 0; font: 800 clamp(34px, 4.2vw, 50px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1.5px; color: #9cff7a; font-variant-numeric: tabular-nums; }
+.impact-band dd { margin: 0; font: 800 clamp(28px, 3.4vw, 40px)/1 "Unbounded", sans-serif; letter-spacing: -1.5px; color: #9cff7a; font-variant-numeric: tabular-nums; }
 .impact-band dt { color: var(--ink-2); font-size: 14px; line-height: 1.45; }
 .impact-note { margin: 0 0 28px; font: 500 11px "Geist Mono", monospace; letter-spacing: .5px; color: var(--ink-2); }
 .card .impact { margin: 0; padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.45; color: var(--ink);
@@ -387,7 +379,7 @@ body:has(.lightbox[open]) { overflow: hidden; }
   background: #0f1319; border: 1px solid var(--line); min-height: 160px;
 }
 .agent-big { width: 84px; height: 84px; border-radius: 18px; overflow: hidden; background: #1c2230; display: grid; }
-.agent-card h4 { margin: 0; font: 700 20px "Bricolage Grotesque", sans-serif; }
+.agent-card h4 { margin: 0; font: 700 17px "Unbounded", sans-serif; }
 .agent-card p { margin: 4px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
 .agent-card .agent-dept { margin: 0 0 2px; font: 600 10px "Geist Mono", monospace; letter-spacing: 1.2px; text-transform: uppercase; color: var(--lcd); }
 .agent-card .agent-role { margin: 0; color: var(--ink); font-weight: 600; }

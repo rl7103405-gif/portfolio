@@ -5,7 +5,7 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const fontsReady = () => Promise.race([
-  Promise.all([document.fonts.load('800 120px "Bricolage Grotesque"'), document.fonts.load('120px "VT323"')]),
+  Promise.all([document.fonts.load('800 120px "Unbounded"'), document.fonts.load('120px "VT323"')]),
   new Promise((r) => setTimeout(r, 2500)),
 ]).catch(() => {});
 
@@ -148,7 +148,7 @@ function montar(container, { keys, lcd, onPress, onHover, onFail }, limpiar) {
     const c = document.createElement('canvas'); c.width = c.height = 256;
     const cx = c.getContext('2d');
     cx.fillStyle = k.wide ? '#eceae4' : '#1b1b1b';
-    cx.font = `800 ${k.wide ? 150 : 172}px "Bricolage Grotesque", sans-serif`;
+    cx.font = `800 ${k.wide ? 130 : 150}px "Unbounded", sans-serif`;
     cx.textAlign = 'center'; cx.textBaseline = 'middle';
     cx.fillText(k.k, 128, 140);
     const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
