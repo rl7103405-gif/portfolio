@@ -1,5 +1,5 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007g';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261007i';
 
 const STORE = 'rl-portafolio';
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -27,6 +27,27 @@ function hover(i) {
   else setLcd(lcdBase());
 }
 
+// ---------- cifras que suben al aparecer (solo con movimiento permitido) ----------
+let ioCifras = null;
+function contarCifras(fmt) {
+  ioCifras?.disconnect();
+  if (reduced.matches || !('IntersectionObserver' in window)) return;
+  ioCifras = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (!en.isIntersecting || en.intersectionRatio < 0.6) continue;
+      ioCifras.unobserve(en.target);
+      const dd = en.target; const fin = Number(dd.dataset.n); const mas = dd.dataset.plus === '1' ? '+' : '';
+      const t0 = performance.now(); const dur = 1200;
+      const paso = (now) => {
+        const k = Math.min(1, Math.max(0, (now - t0) / dur)); const v = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+        dd.textContent = fmt.format(v) + mas; if (k < 1) requestAnimationFrame(paso);
+      };
+      requestAnimationFrame(paso);
+    }
+  }, { threshold: 0.6 });
+  $$('#fab-stats dd').forEach((dd) => ioCifras.observe(dd));
+}
+
 // ---------- render ----------
 function renderLegend() {
   const nav = $('#legend');
@@ -44,6 +65,7 @@ function cardHTML(p) {
   const t = p[state.lang]; const ui = UI[state.lang];
   const extra = t.used ? `<dl><div><dt>${esc(ui.used)}</dt><dd>${esc(t.used)}</dd></div><div><dt>${esc(ui.built)}</dt><dd>${esc(t.built)}</dd></div></dl>` : '';
   const stack = p.stack ? `<div class="stack">${p.stack.map((s) => `<span>${esc(s)}</span>`).join('')}</div>` : '';
+  const impact = t.impact ? `<p class="impact">${esc(t.impact)}</p>` : '';
   const link = p.url
     ? `<a class="go" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.play ? ui.play : ui.open)} ↗</a>`
     : (p.group === 'proyectos' ? `<span class="private">${esc(ui.private)}</span>` : '');
@@ -57,7 +79,7 @@ function cardHTML(p) {
     <div class="card-top"><div class="card-icon${p.logo ? ' has-logo' : ''}" aria-hidden="true">${p.logo ? `<img src="${esc(p.logo)}" alt="" width="46" height="46" loading="lazy">` : esc(p.mono)}</div>
       <span class="badge ${p.status}">${esc(ui.status[p.status])}</span></div>
     <div class="card-name"><h3>${esc(t.name || p.name)}</h3><div class="tag">${esc(t.tag)}</div></div>
-    <p>${esc(t.desc)}</p>${extra}${stack}${link}</article>`;
+    <p>${esc(t.desc)}</p>${impact}${extra}${stack}${link}</article>`;
 }
 
 function renderSections() {
@@ -72,13 +94,19 @@ function renderSections() {
   for (const box of $$('[data-body]')) box.innerHTML = (SECTIONS[box.dataset.body][state.lang].body || []).map((p) => `<p class="reveal">${esc(p)}</p>`).join('');
   $('#hobbies').innerHTML = SECTIONS.fuera[state.lang].items.map((h) =>
     `<article class="hobby reveal"><h3 class="hobby-stat">${esc(h.stat)}</h3><p class="hobby-label">${esc(h.label)}</p><p>${esc(h.text)}</p></article>`).join('');
+  const fab = SECTIONS.fabrica[state.lang]; const fmt = new Intl.NumberFormat(state.lang === 'es' ? 'es-MX' : 'en-US');
+  $('#fab-stats').innerHTML = fab.stats.map((s) =>
+    `<div class="reveal"><dt>${esc(s.l)}</dt><dd data-n="${s.n}" data-plus="${s.plus ? 1 : 0}">${fmt.format(s.n)}${s.plus ? '+' : ''}</dd></div>`).join('');
+  $('#fab-note').textContent = fab.statsNote;
+  contarCifras(fmt);
   const tool = SECTIONS.herramientas[state.lang];
   $('#pipeline').innerHTML = tool.steps.map((s, i) =>
     `<li class="step reveal" style="--c:${KEYS[i % KEYS.length].color}"><span class="step-n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3>${esc(s.name)}</h3><span class="step-who">${esc(s.who)}</span><p>${esc(s.text)}</p></li>`).join('');
   $('#office-img').alt = tool.office.alt; $('#office-big').alt = tool.office.alt;
   $('#office-copy').innerHTML =
     `<p class="office-kicker">${esc(tool.office.kicker)}</p><h3>${esc(tool.office.title)}</h3><p>${esc(tool.office.text)}</p>
-     <dl class="office-stats">${tool.office.stats.map(([n, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(n)}</dd></div>`).join('')}</dl>`;
+     <dl class="office-stats">${tool.office.stats.map(([n, l]) => `<div><dt>${esc(l)}</dt><dd>${esc(n)}</dd></div>`).join('')}</dl>
+     <p class="office-source">${esc(tool.office.source)}</p>`;
   $('#chips').innerHTML = SECTIONS.herramientas[state.lang].chips.map((c) => `<li class="reveal">${esc(c)}</li>`).join('');
   const linkItems = [
     ['GitHub', LINKS.github, true], ['LinkedIn', LINKS.linkedin, true],
@@ -185,6 +213,8 @@ for (const sel of ['#keys-html', '#legend']) {
     if (!e.relatedTarget?.closest?.('[data-i]')) hover(-1);
   });
 }
+// 'Ver proyectos' (celular) pasa por la misma navegación que la tecla P, para que la pantallita no se quede atrás.
+$('.hero-links a[href="#proyectos"]').addEventListener('click', (e) => { e.preventDefault(); press(KEYS.findIndex((k) => k.id === 'proyectos')); });
 $('#legend').addEventListener('click', (e) => {
   const a = e.target.closest('a[data-i]'); if (!a) return;
   e.preventDefault(); press(Number(a.dataset.i));
@@ -251,7 +281,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261007g');
+    const mod = await import('./keypad3d.js?v=20261007i');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),

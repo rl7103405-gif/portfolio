@@ -334,3 +334,40 @@ body:has(.lightbox[open]) { overflow: hidden; }
 .demo-error { position: absolute; inset: auto 16px 50% 16px; margin: 0; padding: 14px 16px; border-radius: 12px; background: rgba(11,13,16,.92); border: 1px solid var(--line); color: var(--ink); text-align: center; }
 .lightbox-video video { display: block; width: 100%; height: auto; max-height: 92svh; background: #000; }
 .lightbox-video .lightbox-close { position: fixed; float: none; margin: 0; top: calc(16px + env(safe-area-inset-top, 0px)); right: 16px; }
+
+/* Fábrica: cifras de uso real */
+.impact-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 10px; }
+.impact-band > div {
+  display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px; padding: 18px 18px 20px;
+  background: linear-gradient(160deg, color-mix(in srgb, #7ccf4a 12%, var(--bg-2)), var(--bg-2) 70%);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.impact-band dd { margin: 0; font: 800 clamp(34px, 4.2vw, 50px)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -1.5px; color: #9cff7a; font-variant-numeric: tabular-nums; }
+.impact-band dt { color: var(--ink-2); font-size: 14px; line-height: 1.45; }
+.impact-note { margin: 0 0 28px; font: 500 11px "Geist Mono", monospace; letter-spacing: .5px; color: var(--ink-2); }
+.card .impact { margin: 0; padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.45; color: var(--ink);
+  background: color-mix(in srgb, var(--a) 12%, transparent); border-left: 3px solid var(--a); }
+@media (max-width: 900px) { .impact-band { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 420px) { .impact-band { grid-template-columns: 1fr; } }
+
+.office-source { margin: 12px 0 0; font: 500 11px "Geist Mono", monospace; color: var(--ink-2); }
+
+/* Accesos directos bajo el teclado: solo en celular, donde no hay hover que explique las letras */
+.hero-links { display: none; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.ghost-sm { font: 600 13px "Geist Mono", monospace; text-decoration: none; color: var(--ink); background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px; padding: 13px 18px; }
+@media (max-width: 640px) {
+  .hero-links { display: flex; }
+  .hero { align-content: start; padding-top: calc(92px + env(safe-area-inset-top, 0px)); gap: 14px; }
+}
+
+/* Bravo con video: tarjeta destacada a todo lo ancho, video a la izquierda */
+@media (min-width: 1000px) {
+  .cards-big { grid-template-columns: repeat(3, 1fr); }
+  .cards-big .card.has-demo { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); column-gap: 28px; row-gap: 10px; align-content: start; }
+  .cards-big .card.has-demo > * { grid-column: 2; }
+  .cards-big .card.has-demo > .demo-thumb { grid-column: 1; grid-row: 1 / span 9; width: calc(100% + 22px); height: calc(100% + 44px); margin: -22px 0 -22px -22px; aspect-ratio: auto; min-height: 340px; border-bottom: 0; border-right: 1px solid var(--line); }
+}
+@media (min-width: 1000px) {
+  .cards-big .card.has-demo > .demo-thumb img { position: absolute; inset: 0; }
+  .cards-big .card.has-demo > .demo-thumb .demo-play { top: 45%; }
+}
