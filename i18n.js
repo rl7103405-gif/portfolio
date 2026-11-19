@@ -250,11 +250,11 @@ export const PROJECTS = [
     stack: ['Firebase', 'JavaScript', 'PWA'],
   },
   {
-    group: 'proyectos', status: 'prod', mono: 'MC', logo: 'assets/logos/mi-cartera.svg?v=2', accent: '#2fb9a0',
-    name: 'Mi Cartera',
-    url: 'https://rl7103405-gif.github.io/mi-cartera-web/',
-    es: { tag: 'Finanzas personales', desc: 'App para saber a dónde se va el dinero: cuentas, presupuesto, tarjetas e inversiones, sincronizada entre teléfonos.', used: 'Cinco personas de mi familia, más una cartera compartida de la casa.', built: 'La app, su página de presentación y una cuenta de demostración con datos inventados.' },
-    en: { tag: 'Personal finance', desc: 'An app to see where the money goes: accounts, budgets, cards and investments, synced across phones.', used: 'Five members of my family, plus a shared household account.', built: 'The app, its landing page and a demo account with made-up data.' },
+    group: 'proyectos', status: 'prod', mono: 'FV', logo: 'assets/logos/fundview.svg?v=1', accent: '#a7d8b8',
+    name: 'Fundview',
+    url: 'https://fundview.mx',
+    es: { tag: 'Finanzas personales', desc: 'App para saber a dónde se va el dinero: cuentas, presupuesto, tarjetas, préstamos e inversiones, sincronizada entre teléfonos. Empezó como Mi Cartera para mi familia y hoy es una marca propia, abierta por invitación.', used: 'Cinco personas de mi familia, una cartera compartida de la casa y la lista de espera de fundview.mx.', built: 'La app, la marca completa (nombre, logo, colores y tipografía), la página fundview.mx y una cuenta de demostración con datos inventados.' },
+    en: { tag: 'Personal finance', desc: 'An app to see where the money goes: accounts, budgets, cards, loans and investments, synced across phones. It started as Mi Cartera for my family and is now a brand of its own, open by invitation.', used: 'Five members of my family, a shared household account and the fundview.mx waiting list.', built: 'The app, the full brand (name, logo, colours and typography), the fundview.mx website and a demo account with made-up data.' },
     stack: ['Firebase', 'JavaScript', 'GSAP'],
   },
   {
