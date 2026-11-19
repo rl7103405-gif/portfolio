@@ -1,6 +1,6 @@
 // Portafolio: todo funciona sin 3D. El 3D se carga aparte y, si falla, queda el respaldo HTML.
-import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261119b';
-import { AGENTES, DEPTOS } from './agentes.js?v=20261119b';
+import { UI, KEYS, SECTIONS, PROJECTS, LINKS } from './i18n.js?v=20261119c';
+import { AGENTES, DEPTOS } from './agentes.js?v=20261119c';
 
 const STORE = 'rl-portafolio';
 // El video de la oficina 3D se muestra solo cuando esté grabado con la oficina real de Beto (sus personajes y muebles).
@@ -89,6 +89,59 @@ function renderHtmlKeys() {
     `<button type="button" class="key${k.wide ? ' wide' : ''}" style="--c:${k.color}" ${k.wide ? 'data-dark' : ''} data-i="${i}" aria-label="${esc(k[state.lang])}">${esc(k.k)}</button>`).join('');
 }
 
+// ---------- muestra ilustrativa de RAGNAR (HTML, datos inventados: no se puede grabar la app real) ----------
+const ICONOS = {
+  gafete: '<svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M9.5 3.5h5v3h-5z"/><circle cx="12" cy="11.5" r="2.3"/><path d="M8 17c.7-1.8 2.2-2.7 4-2.7s3.3.9 4 2.7"/></svg>',
+  bulto: '<svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg>',
+  listo: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m8.3 12.3 2.6 2.6 4.9-5.4"/></svg>',
+};
+const FOLIOS = 12; const FALTAN = new Set([3, 8, 10]); // posiciones de los folios que no han regresado
+function sampleHTML(s) {
+  const ui = UI[state.lang]; let k = 0;
+  const chips = Array.from({ length: FOLIOS }, (_, i) => FALTAN.has(i)
+    ? `<li class="miss">${2041 + i}</li>`
+    : `<li class="back" style="--k:${k++}">${2041 + i}</li>`).join('');
+  const regresan = FOLIOS - FALTAN.size;
+  const pasos = s.steps.map(([a, b], i) => `<li><span class="sample-ico">${ICONOS[['gafete', 'bulto', 'listo'][i]]}</span><b>${esc(a)}</b><span>${esc(b)}</span></li>`).join('');
+  return `<figure class="sample" role="img" aria-label="${esc(s.alt)}"><div class="sample-win" aria-hidden="true">
+    <div class="sample-bar"><b>RAGNAR</b><span>${esc(s.note)}</span><i>${esc(ui.sampleData)}</i></div>
+    <div class="sample-route">
+      <p class="node"><b>${esc(s.from[0])}</b><span>${esc(s.from[1])}</span></p>
+      <div class="tracks"><p class="t-out"><span>${esc(s.out)}</span><i></i></p><p class="t-back"><i></i><span>${esc(s.back)}</span></p></div>
+      <p class="node"><b>${esc(s.to[0])}</b><span>${esc(s.to[1])}</span></p>
+    </div>
+    <dl class="sample-tally"><div><dt>${esc(s.tally[0])}</dt><dd>${FOLIOS}</dd></div><div class="ok"><dt>${esc(s.tally[1])}</dt><dd data-de="0" data-a="${regresan}">${regresan}</dd></div><div class="warn"><dt>${esc(s.tally[2])}</dt><dd data-de="${FOLIOS}" data-a="${FALTAN.size}">${FALTAN.size}</dd></div></dl>
+    <ol class="sample-folios">${chips}</ol>
+    <div class="sample-plant"><p>${esc(s.plant)}</p><ol>${pasos}</ol></div>
+  </div></figure>`;
+}
+
+// Una sola vez, al aparecer: el folio va al taller, regresa y los contadores cuadran. Sin movimiento: estado final directo.
+let ioMuestra = null;
+function animarMuestras() {
+  ioMuestra?.disconnect();
+  if (!document.documentElement.classList.contains('anim')) return;
+  const figs = $$('.sample');
+  for (const f of figs) for (const dd of $$('[data-de]', f)) dd.textContent = dd.dataset.de;
+  ioMuestra = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (!en.isIntersecting) continue;
+      ioMuestra.unobserve(en.target); en.target.classList.add('play');
+      for (const dd of $$('[data-de]', en.target)) {
+        const de = Number(dd.dataset.de); const a = Number(dd.dataset.a); let t0 = 0;
+        const paso = (now) => {
+          t0 ||= now + 1000; // empieza cuando el folio va de regreso
+          const k = Math.min(1, Math.max(0, (now - t0) / 900));
+          dd.textContent = String(Math.round(de + (a - de) * (1 - Math.pow(1 - k, 3))));
+          if (k < 1) requestAnimationFrame(paso);
+        };
+        requestAnimationFrame(paso);
+      }
+    }
+  }, { threshold: 0.55 });
+  figs.forEach((f) => ioMuestra.observe(f));
+}
+
 function cardHTML(p) {
   const t = p[state.lang]; const ui = UI[state.lang];
   const extra = t.used ? `<dl><div><dt>${esc(ui.used)}</dt><dd>${esc(t.used)}</dd></div><div><dt>${esc(ui.built)}</dt><dd>${esc(t.built)}</dd></div></dl>` : '';
@@ -103,7 +156,8 @@ function cardHTML(p) {
       <span class="demo-play" aria-hidden="true"></span>
       <span class="demo-meta"><b>${esc(ui.demo)} · ${esc(t.name || p.name)} · ${esc(v.len)}</b><span>${esc(v[state.lang])}</span><i>${esc(ui.demoData)}</i></span>
     </button>` : '';
-  return `<article class="card reveal${v ? ' has-demo' : ''}" style="--a:${p.accent}">${demo}
+  const muestra = !v && t.sample ? sampleHTML(t.sample) : '';
+  return `<article class="card reveal${v ? ' has-demo' : ''}${muestra ? ' has-sample' : ''}" style="--a:${p.accent}">${demo}${muestra}
     <div class="card-top"><div class="card-icon${p.logo ? ' has-logo' : ''}" aria-hidden="true">${p.logo ? `<img src="${esc(p.logo)}" alt="" width="46" height="46" loading="lazy">` : esc(p.mono)}</div>
       <span class="badge ${p.status}">${esc(ui.status[p.status])}</span></div>
     <div class="card-name"><h3>${esc(t.name || p.name)}</h3><div class="tag">${esc(t.tag)}</div></div>
@@ -164,7 +218,7 @@ function applyText() {
 }
 
 function renderAll() {
-  applyText(); renderLegend(); renderHtmlKeys(); renderSections(); observeReveals(); bindCards();
+  applyText(); renderLegend(); renderHtmlKeys(); renderSections(); observeReveals(); animarMuestras(); bindCards();
   setLcd(lcdBase(), false, true);
 }
 
@@ -314,7 +368,7 @@ async function load3D() {
   if (reduced.matches || !webgl2()) { sinEspera(); return; }
   const token = ++carga3D;
   try {
-    const mod = await import('./keypad3d.js?v=20261119b');
+    const mod = await import('./keypad3d.js?v=20261119c');
     const keypad = await mod.init($('#device-3d'), {
       keys: KEYS, lang: state.lang, lcd: lcdBase(),
       onPress: (i) => press(i),
