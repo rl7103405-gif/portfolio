@@ -174,6 +174,7 @@ export const SECTIONS = {
       body: [
         'Quini fabrica calcetines en Puebla desde 1979: 121 máquinas de tejido y capacidad para 20 millones de pares al año, para marcas propias, deportivas y de moda, y con auditoría social SMETA.',
         'Mi trabajo es convertir cómo funciona la planta de verdad (muestras, mantenimiento, embarques, fichas técnicas) en software que el equipo usa todos los días. Son herramientas privadas: las muestro sin datos reales.',
+        'Lo más difícil no es una app para un equipo, sino una que conecta a dos partes que no trabajan bajo el mismo techo: Quini con sus talleres maquileros, o la planta con los choferes que mueven la mercancía. Cada parte ve y firma solo lo suyo, y el sistema cuadra lo que una entrega con lo que la otra recibe.',
       ],
       stats: [
         { n: 40, plus: true, l: 'personas de la planta de tejido reportan y reparan fallas en Captura Mecánicos' },
@@ -189,6 +190,7 @@ export const SECTIONS = {
       body: [
         'Quini has been making socks in Puebla since 1979. It runs 121 knitting machines, has capacity for 20 million pairs a year and supplies private-label, sports and fashion brands. It is also SMETA-audited.',
         'My job is to turn the way the plant actually works — samples, maintenance, shipping, tech sheets — into software the team uses every day. These tools are private, so I show them without real data.',
+        'The hardest part is not an app for one team, but one that connects two parties who do not work under the same roof: Quini and its contract workshops, or the plant and the drivers who move the goods. Each side sees and signs off only its own part, and the system reconciles what one hands over with what the other receives.',
       ],
       stats: [
         { n: 40, plus: true, l: 'people in the knitting plant report and repair faults using Captura Mecánicos' },
@@ -286,8 +288,9 @@ export const PROJECTS = [
     stack: ['Firebase', 'JavaScript'],
   },
   { group: 'fabrica', status: 'prod', mono: 'RG', accent: '#7ccf4a', name: 'RAGNAR',
-    es: { tag: 'Embarques e inventario', desc: 'Control de la maquila externa: qué salió, qué regresó y qué falta, con un portal para los talleres maquileros.', impact: '329 remisiones con 3,795 folios a las maquilas al 31 de agosto.' },
-    en: { tag: 'Shipping & inventory', desc: 'Tracks outsourced production: what went out, what came back and what\'s still missing, with a portal for the contract workshops.', impact: '329 dispatch notes covering 3,795 production lots, up to 31 August.' } },
+    es: { tag: 'Operación de la planta', desc: 'Conecta a Quini con quienes trabajan fuera de la planta. Los talleres maquileros tienen su propio portal: reciben las remisiones, regresan la producción y el sistema cuadra qué salió, qué regresó y qué falta. Los choferes registran sus viajes y la flota se ve con GPS en un mapa. Dentro de la planta suma una estación de captura por proceso, donde cada operadora pasa su gafete y el bulto por un lector, y el cálculo del destajo y los bonos para Recursos Humanos.', used: 'Embarques, maquileros, Recursos Humanos, choferes y Dirección.', built: 'Todo el sistema: base de datos, reglas de acceso por rol, funciones en el servidor y las pantallas.', impact: '329 remisiones con 3,795 folios a las maquilas al 31 de agosto de 2026. La captura con gafete está en piloto desde noviembre de 2026, empezando por el proceso de silicón.' },
+    en: { tag: 'Plant operations', desc: 'Connects Quini with the people who work outside the plant. Contract workshops have their own portal: they receive dispatch notes, send production back and the system reconciles what went out, what came back and what is still missing. Drivers log their trips and the fleet shows on a live GPS map. Inside the plant it adds a capture station per process, where each operator scans their badge and the bundle with a reader, and piece-rate and bonus calculations for HR.', used: 'Shipping, contract workshops, HR, drivers and management.', built: 'The whole system: database, role-based access rules, server functions and the screens.', impact: '329 dispatch notes covering 3,795 production lots, up to 31 August 2026. Badge-based capture has been in pilot since November 2026, starting with the silicone process.' },
+    stack: ['Firebase', 'React', 'Cloud Functions'] },
   { group: 'en-proceso', status: 'wip', mono: 'GR', accent: '#2fb9a0', name: 'Extractor de gramajes',
     es: { tag: 'Fichas técnicas', desc: 'Lee las fichas técnicas de los productos y saca los gramajes de cada hilo, que antes se copiaban a mano.' },
     en: { tag: 'Tech sheets', desc: 'Reads product tech sheets and extracts the yarn weights that used to be copied by hand.' } },
